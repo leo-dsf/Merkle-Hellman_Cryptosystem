@@ -8,7 +8,7 @@
 // Gabriel Hall Abreu, 102851
 //
 // João Ricardo Paço Matos, 103182
-//
+//jj
 
 #if __STDC_VERSION__ < 199901L
 # error "This code must must be compiled in c99 mode or later (-std=c99)" // to handle the unsigned long long data type
