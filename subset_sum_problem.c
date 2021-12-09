@@ -28,6 +28,36 @@
 //
 // functions
 //
+char subsetSums(int arr[], int n, integer_t desired_sum)
+{
+    // There are totoal 2^n subsets
+    long long total = 1 << n;
+    integer_t ret_arr[(1 << n)];
+ 
+    // Consider all numbers from 0 to 2^n - 1
+    for (long long i = 0; i < total; i++) {
+        long long test_sum = 0;
+ 
+        // Consider binary representation of
+        // current i to decide which elements
+        // to pick.
+        for (int j = 0; j < n; j++)
+        {
+            if (i & (1 << j))
+            {
+                test_sum += arr[j];
+            }
+        }
+        // Test if sum = desired sum
+        //ret_arr[i]=sum;
+        if (test_sum == desired_sum)
+        {
+            return 1;
+        }
+        
+    }
+    return 0;
+}
 //
 // First approach to the problem
 //
@@ -136,6 +166,30 @@ char bruteForceRecursiveV3(int n, integer_t p[n], integer_t desired_sum, int cur
     }
     return 0;
 }
+
+
+char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum, int result[])
+{
+    // Array p1 
+    integer_t p1[n%2+n/2];
+    integer_t p2[n/2];
+    int r, length;
+
+    for (int j = 0; j<n; j++)
+    {
+        if (j<(n%2+n/2))
+        {
+            p1[j]=p[j];
+        }else{
+            p2[j]=p[j];
+        }
+    }
+    
+    length = sizeof(p1)/sizeof(p1[0]);
+    r = subsetSums(p1, length)
+
+}
+
 //
 // main program
 //
@@ -151,7 +205,7 @@ int main(void) {
 
     for (int i = 0; i < n_problems; i++) {
         int n = all_subset_sum_problems[i].n; // The value of n
-
+        
         if (n > 30)
             continue; // Skip large values of n
 
@@ -163,11 +217,12 @@ int main(void) {
             int result[n];
             for (int j = 0; j < n; j++)
                 result[j] = 0;
-
+                HorowitzSahni(n, p, desired_sum, result);
             //printf("N = %d, Found: %d, ", n, bruteForceV2(n, p, desired_sum, result));
             //printf("%d\n", bruteForceV1(n, p, desired_sum));
             //printf("N = %d, Found: %d, ", n, bruteForceRecursiveV1(n, p, desired_sum, 0,0));
             //printf("N = %d, Found: %d, ", n, bruteForceRecursiveV2(n, p, desired_sum, 0,0,result));
+            /*
             printf("Para n = %d | Found: %d | ", n, bruteForceRecursiveV3(n, p, desired_sum, 0,0,result));
 
             printf("Result: ");
@@ -176,6 +231,8 @@ int main(void) {
                 printf("%d", result[j]);
 
             printf("\n");
+            */
+            
         }
     }
     return 0;
