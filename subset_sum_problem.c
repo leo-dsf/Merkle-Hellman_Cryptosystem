@@ -368,7 +368,7 @@ int main(void)
             //printf("\n");
             // double t2 = cpu_time();
             // printf("elapsed time: %.6f seconds\n", t2 - t1);
-            break;
+            
         }
     }
     return 0;
