@@ -22,6 +22,7 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "elapsed_time.h"
 #include STUDENT_H_FILE
 
@@ -211,13 +212,16 @@ char decToBinary(integer_t n, integer_t c)
             printf("%s", "0");
         }
     }
+    return 0;
 }
 
 char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
 {
     double t1 = cpu_time();
     integer_t p1[n % 2 + n / 2];
+
     integer_t p2[n / 2];
+
     int c = 0;
     for (int j = 0; j < n; j++)
     {
@@ -231,19 +235,35 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
             c++;
         }
     }
+
     // Making Subset sums
-    int l1 = sizeof(p1) / sizeof(p1[0]);
-    int l2 = sizeof(p2) / sizeof(p2[0]);
+    integer_t l1 = sizeof(p1) / sizeof(p1[0]);
+
+    integer_t l2 = sizeof(p2) / sizeof(p2[0]);
+
     integer_t total1 = (1 << l1); // s1 length 2^n
+
     integer_t total2 = (1 << l2); // s2 length
+
     integer_t s1[total1];
     integer_t s2[total2];
-    integer_t ss1[total1];
-    integer_t ss2[total2];
+    integer_t *ss1,*ss2;
+    ss1 = (integer_t*)malloc(total1 * sizeof(integer_t));
+    ss2 = (integer_t*)malloc(total2 * sizeof(integer_t));
 
+
+    //integer_t ss1[total1];
+
+    //ERRO no ss2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Questão é como é que vou guardar os index...
+    //integer_t ss2[total2];
+    
+
+
+    
     // Calculating subset sums and duplicating arrays -> Need to find an other way to save sums indexes
     // When converting the index to binary and inverting order I will have the result
-
+    
     integer_t i = 0;
     while (i < total1)
     {
@@ -271,23 +291,30 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
         i++;
     }
 
+
     // Sorting with quick sort method
     quickSort(s1, 0, total1 - 1);
+
     quickSort(s2, 0, total2 - 1);
 
-    i = 0;
+
+    integer_t k = 0;
     integer_t j = total2 - 1;
-    while ((i < total1) && (j >= 0))
-    {
-        if (s1[i] + s2[j] == desired_sum)
+    printf("j = %lld\n", j);
+    while (k < total1 && j >= 0)
+    {   
+        //printf("k = %lld\n",k);
+        //printf("k = %lld j = %lld\n",k,j);
+        if (s1[k] + s2[j] == desired_sum)
         {
             // finding indexes
             printf("Result: ");
             integer_t c = 0;
             while (c < total1)
             {
-                if (ss1[c] == s1[i])
+                if (ss1[c] == s1[k])
                 {
+                    printf("here\n");
                     decToBinary(c, l1);
                     break;
                 }
@@ -306,13 +333,18 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
             printf("\n");
             break;
         }
-        else if (s1[i] + s2[j] < desired_sum)
+        else if (s1[k] + s2[j] < desired_sum)
         {
-            i++;
+            k++;
         }
-        else if (s1[i] + s2[j] > desired_sum)
+        else if (s1[k] + s2[j] > desired_sum)
         {
-            j--;
+            if (j < 0){
+                printf("here\n");
+                break;
+            }else{
+                j--;
+            }
         }
     }
     double t2 = cpu_time();
@@ -334,11 +366,11 @@ int main(void)
     fprintf(stderr,"  integer_t ... %d bits\n",8 * (int)sizeof(integer_t));
      */
 
-    for (int i = 0; i < n_problems; i++)
+    for (int i = 22; i < n_problems; i++)
     {
         int n = all_subset_sum_problems[i].n; // The value of n
 
-        if (n > 39)
+        if (n > 57)
             continue; // Skip large values of n
 
         integer_t *p = all_subset_sum_problems[i].p; // The weights
@@ -368,6 +400,7 @@ int main(void)
             //printf("\n");
             // double t2 = cpu_time();
             // printf("elapsed time: %.6f seconds\n", t2 - t1);
+            break;
             
         }
     }
