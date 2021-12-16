@@ -217,9 +217,10 @@ char decToBinary(integer_t n, integer_t c)
 
 char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
 {
-    double t1 = cpu_time();
-    integer_t p1[n % 2 + n / 2];
 
+    //double t1 = cpu_time();
+
+    integer_t p1[n % 2 + n / 2];
     integer_t p2[n / 2];
 
     int c = 0;
@@ -238,28 +239,17 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
 
     // Making Subset sums
     integer_t l1 = sizeof(p1) / sizeof(p1[0]);
-
     integer_t l2 = sizeof(p2) / sizeof(p2[0]);
-
     integer_t total1 = (1 << l1); // s1 length 2^n
-
     integer_t total2 = (1 << l2); // s2 length
 
-    integer_t s1[total1];
-    integer_t s2[total2];
-    integer_t *ss1,*ss2;
-    ss1 = (integer_t*)malloc(total1 * sizeof(integer_t));
-    ss2 = (integer_t*)malloc(total2 * sizeof(integer_t));
+    printf("l1 = %lld , l2 = %lld, total1 = %lld, total2 = %lld", l1,l2,total1,total2);
 
-
-    //integer_t ss1[total1];
-
-    //ERRO no ss2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //Questão é como é que vou guardar os index...
-    //integer_t ss2[total2];
-    
-
-
+    integer_t *s1,*s2,*duplicated_s1,*duplicated_s2;
+    s1 = (integer_t*)malloc(total1 * sizeof(integer_t));
+    s2 = (integer_t*)malloc(total2 * sizeof(integer_t));
+    duplicated_s1 = (integer_t*)malloc(total1 * sizeof(integer_t));
+    duplicated_s2 = (integer_t*)malloc(total2 * sizeof(integer_t));
     
     // Calculating subset sums and duplicating arrays -> Need to find an other way to save sums indexes
     // When converting the index to binary and inverting order I will have the result
@@ -271,7 +261,7 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
         integer_t sum2 = 0;
         for (int j = 0; j < n; j++)
         {
-            if (i & (1 << j))
+            if (i & (1ull << j))
             {
                 sum1 += p1[j];
                 if (i < total2)
@@ -281,12 +271,12 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
             }
         }
         s1[i] = sum1;
-        ss1[i] = sum1;
+        duplicated_s1[i] = sum1;
 
         if (i < total2)
         {
             s2[i] = sum2;
-            ss2[i] = sum2;
+            duplicated_s2[i] = sum2;
         }
         i++;
     }
@@ -294,9 +284,7 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
 
     // Sorting with quick sort method
     quickSort(s1, 0, total1 - 1);
-
     quickSort(s2, 0, total2 - 1);
-
 
     integer_t k = 0;
     integer_t j = total2 - 1;
@@ -312,7 +300,7 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
             integer_t c = 0;
             while (c < total1)
             {
-                if (ss1[c] == s1[k])
+                if (duplicated_s1[c] == s1[k])
                 {
                     printf("here\n");
                     decToBinary(c, l1);
@@ -323,7 +311,7 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
             c = 0;
             while (c < total2)
             {
-                if (ss2[c] == s2[j])
+                if (duplicated_s2[c] == s2[j])
                 {
                     decToBinary(c, l2);
                     break;
@@ -347,8 +335,12 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
             }
         }
     }
-    double t2 = cpu_time();
-    printf("elapsed time: %.6f seconds\n", t2 - t1);
+    free(s1);
+    free(s2);
+    free(duplicated_s1);
+    free(duplicated_s2);
+    //double t2 = cpu_time();
+    //printf("elapsed time: %.6f seconds\n", t2 - t1);
     return 0;
 }
 
