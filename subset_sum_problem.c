@@ -218,8 +218,9 @@ char decToBinary(integer_t n, integer_t c)
 char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
 {
 
-    //double t1 = cpu_time();
-
+    //
+    integer_t lengthP1 = n % 2 + n / 2;
+    integer_t lengthP2 = n / 2;
     integer_t p1[n % 2 + n / 2];
     integer_t p2[n / 2];
 
@@ -238,12 +239,8 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
     }
 
     // Making Subset sums
-    integer_t l1 = sizeof(p1) / sizeof(p1[0]);
-    integer_t l2 = sizeof(p2) / sizeof(p2[0]);
-    integer_t total1 = (1 << l1); // s1 length 2^n
-    integer_t total2 = (1 << l2); // s2 length
-
-    printf("l1 = %lld , l2 = %lld, total1 = %lld, total2 = %lld", l1,l2,total1,total2);
+    integer_t total1 = (1 << lengthP1); // s1 length 2^n
+    integer_t total2 = (1 << lengthP2); // s2 length
 
     integer_t *s1,*s2,*duplicated_s1,*duplicated_s2;
     s1 = (integer_t*)malloc(total1 * sizeof(integer_t));
@@ -288,22 +285,18 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
 
     integer_t k = 0;
     integer_t j = total2 - 1;
-    printf("j = %lld\n", j);
     while (k < total1 && j >= 0)
     {   
-        //printf("k = %lld\n",k);
-        //printf("k = %lld j = %lld\n",k,j);
+
         if (s1[k] + s2[j] == desired_sum)
         {
             // finding indexes
-            printf("Result: ");
             integer_t c = 0;
             while (c < total1)
             {
                 if (duplicated_s1[c] == s1[k])
                 {
-                    printf("here\n");
-                    decToBinary(c, l1);
+                    decToBinary(c, lengthP1);
                     break;
                 }
                 c++;
@@ -313,12 +306,11 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
             {
                 if (duplicated_s2[c] == s2[j])
                 {
-                    decToBinary(c, l2);
+                    decToBinary(c, lengthP2);
                     break;
                 }
                 c++;
             }
-            printf("\n");
             break;
         }
         else if (s1[k] + s2[j] < desired_sum)
@@ -327,20 +319,14 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
         }
         else if (s1[k] + s2[j] > desired_sum)
         {
-            if (j < 0){
-                printf("here\n");
-                break;
-            }else{
-                j--;
-            }
+            j--;
         }
     }
     free(s1);
     free(s2);
     free(duplicated_s1);
     free(duplicated_s2);
-    //double t2 = cpu_time();
-    //printf("elapsed time: %.6f seconds\n", t2 - t1);
+    //
     return 0;
 }
 
@@ -375,7 +361,11 @@ int main(void)
             for (int j = 0; j < n; j++)
                 result[j] = 0;
             printf("n = %d \n", n);
+            double t1 = cpu_time();
             HorowitzSahni(n, p, desired_sum);
+            printf("\n");
+            double t2 = cpu_time();
+            printf("elapsed time: %.6f seconds\n", t2 - t1);
 
             // printf("N = %d, Found: %d, ", n, bruteForceV2(n, p, desired_sum, result));
             // printf("%d\n", bruteForceV1(n, p, desired_sum));
