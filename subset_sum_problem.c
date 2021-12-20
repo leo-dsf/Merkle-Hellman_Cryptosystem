@@ -8,7 +8,6 @@
 // Gabriel Hall Abreu, 102851
 //
 
-
 #if __STDC_VERSION__ < 199901L
 #error "This code must must be compiled in c99 mode or later (-std=c99)" // to handle the unsigned long long data type
 #endif
@@ -138,10 +137,7 @@ char bruteForceRecursiveV3(int n, integer_t p[n], integer_t desired_sum, int cur
     return 0;
 }
 
-
-
 // HorowitzSahni starts here
-
 
 // Implementig quick sort function
 
@@ -216,8 +212,6 @@ char decToBinary(integer_t n, integer_t c)
 
 char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
 {
-
-    //
     integer_t lengthP1 = n % 2 + n / 2;
     integer_t lengthP2 = n / 2;
     integer_t p1[n % 2 + n / 2];
@@ -240,16 +234,15 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
     // Making Subset sums
     integer_t total1 = (1 << lengthP1); // s1 length 2^n
     integer_t total2 = (1 << lengthP2); // s2 length
+    integer_t *s1, *s2, *duplicated_s1, *duplicated_s2;
+    s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
+    s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
+    duplicated_s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
+    duplicated_s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
 
-    integer_t *s1,*s2,*duplicated_s1,*duplicated_s2;
-    s1 = (integer_t*)malloc(total1 * sizeof(integer_t));
-    s2 = (integer_t*)malloc(total2 * sizeof(integer_t));
-    duplicated_s1 = (integer_t*)malloc(total1 * sizeof(integer_t));
-    duplicated_s2 = (integer_t*)malloc(total2 * sizeof(integer_t));
-    
     // Calculating subset sums and duplicating arrays -> Need to find an other way to save sums indexes
     // When converting the index to binary and inverting order I will have the result
-    
+
     integer_t i = 0;
     while (i < total1)
     {
@@ -277,7 +270,6 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
         i++;
     }
 
-
     // Sorting with quick sort method
     quickSort(s1, 0, total1 - 1);
     quickSort(s2, 0, total2 - 1);
@@ -285,7 +277,7 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
     integer_t k = 0;
     integer_t j = total2 - 1;
     while (k < total1 && j >= 0)
-    {   
+    {
 
         if (s1[k] + s2[j] == desired_sum)
         {
@@ -325,9 +317,224 @@ char HorowitzSahni(int n, integer_t p[n], integer_t desired_sum)
     free(s2);
     free(duplicated_s1);
     free(duplicated_s2);
-    //
     return 0;
 }
+
+
+
+//QUARTA E ULTIMA FUNÇÃO
+//HEAPS
+//NODE IS AT INDEX I
+//LEFT CHILD IS AT 2*I
+//RIGHT CHILD IS AT 2*I+1
+//ITS PARENT IS AT 2/I
+//BINARY TREE HAS 2^(H-1)-1 NODES, H = HEIGHT OF BINARY TREE
+//minuto 31:54 https://www.youtube.com/watch?v=HqPJF2L5h9U
+//https://gist.github.com/sudhanshuptl/d86da25da46aa3d060e7be876bbdb343 -> min heap implementation
+//https://www.journaldev.com/36805/min-heap-binary-tree -> another min heap implementation
+
+typedef struct MinHeap MinHeap;
+struct MinHeap {
+    int* arr;
+    // Current Size of the Heap
+    int size;
+    // Maximum capacity of the heap
+    int capacity;
+};
+ 
+int parent(int i) {
+    // Get the index of the parent
+    return (i - 1) / 2;
+}
+ 
+int left_child(int i) {
+    return (2*i + 1);
+}
+ 
+int right_child(int i) {
+    return (2*i + 2);
+}
+ 
+int get_min(MinHeap* heap) {
+    // Return the root node element,
+    // since that's the minimum
+    return heap->arr[0];
+}
+ 
+MinHeap* init_minheap(int capacity) {
+    MinHeap* minheap = (MinHeap*) calloc (1, sizeof(MinHeap));
+    minheap->arr = (int*) calloc (capacity, sizeof(int));
+    minheap->capacity = capacity;
+    minheap->size = 0;
+    return minheap;
+}
+ 
+MinHeap* insert_minheap(MinHeap* heap, int element) {
+    // Inserts an element to the min heap
+    // We first add it to the bottom (last level)
+    // of the tree, and keep swapping with it's parent
+    // if it is lesser than it. We keep doing that until
+    // we reach the root node. So, we will have inserted the
+    // element in it's proper position to preserve the min heap property
+    if (heap->size == heap->capacity) {
+        fprintf(stderr, "Cannot insert %d. Heap is already full!\n", element);
+        return heap;
+    }
+    // We can add it. Increase the size and add it to the end
+    heap->size++;
+    heap->arr[heap->size - 1] = element;
+ 
+    // Keep swapping until we reach the root
+    int curr = heap->size - 1;
+    // As long as you aren't in the root node, and while the 
+    // parent of the last element is greater than it
+    while (curr > 0 && heap->arr[parent(curr)] > heap->arr[curr]) {
+        // Swap
+        int temp = heap->arr[parent(curr)];
+        heap->arr[parent(curr)] = heap->arr[curr];
+        heap->arr[curr] = temp;
+        // Update the current index of element
+        curr = parent(curr);
+    }
+    return heap; 
+}
+ 
+MinHeap* heapify(MinHeap* heap, int index) {
+    // Rearranges the heap as to maintain
+    // the min-heap property
+    if (heap->size <= 1)
+        return heap;
+     
+    int left = left_child(index); 
+    int right = right_child(index); 
+ 
+    // Variable to get the smallest element of the subtree
+    // of an element an index
+    int smallest = index; 
+     
+    // If the left child is smaller than this element, it is
+    // the smallest
+    if (left < heap->size && heap->arr[left] < heap->arr[index]) 
+        smallest = left; 
+     
+    // Similarly for the right, but we are updating the smallest element
+    // so that it will definitely give the least element of the subtree
+    if (right < heap->size && heap->arr[right] < heap->arr[smallest]) 
+        smallest = right; 
+ 
+    // Now if the current element is not the smallest,
+    // swap with the current element. The min heap property
+    // is now satisfied for this subtree. We now need to
+    // recursively keep doing this until we reach the root node,
+    // the point at which there will be no change!
+    if (smallest != index) 
+    { 
+        int temp = heap->arr[index];
+        heap->arr[index] = heap->arr[smallest];
+        heap->arr[smallest] = temp;
+        heap = heapify(heap, smallest); 
+    }
+ 
+    return heap;
+}
+ 
+MinHeap* delete_minimum(MinHeap* heap) {
+    // Deletes the minimum element, at the root
+    if (!heap || heap->size == 0)
+        return heap;
+ 
+    int size = heap->size;
+    int last_element = heap->arr[size-1];
+     
+    // Update root value with the last element
+    heap->arr[0] = last_element;
+ 
+    // Now remove the last element, by decreasing the size
+    heap->size--;
+    size--;
+ 
+    // We need to call heapify(), to maintain the min-heap
+    // property
+    heap = heapify(heap, 0);
+    return heap;
+}
+ 
+MinHeap* delete_element(MinHeap* heap, int index) {
+    // Deletes an element, indexed by index
+    // Ensure that it's lesser than the current root
+    heap->arr[index] = get_min(heap) - 1;
+     
+    // Now keep swapping, until we update the tree
+    int curr = index;
+    while (curr > 0 && heap->arr[parent(curr)] > heap->arr[curr]) {
+        int temp = heap->arr[parent(curr)];
+        heap->arr[parent(curr)] = heap->arr[curr];
+        heap->arr[curr] = temp;
+        curr = parent(curr);
+    }
+ 
+    // Now simply delete the minimum element
+    heap = delete_minimum(heap);
+    return heap;
+}
+ 
+void print_heap(MinHeap* heap) {
+    // Simply print the array. This is an
+    // inorder traversal of the tree
+    printf("Min Heap:\n");
+    for (int i=0; i<heap->size; i++) {
+        printf("%d -> ", heap->arr[i]);
+    }
+    printf("\n");
+}
+ 
+void free_minheap(MinHeap* heap) {
+    if (!heap)
+        return;
+    free(heap->arr);
+    free(heap);
+}
+/*
+    //Capacity of 10 elements
+    MinHeap* heap = init_minheap(10);
+ 
+    insert_minheap(heap, 40);
+    insert_minheap(heap, 50);
+    insert_minheap(heap, 5);
+    print_heap(heap);
+     
+    // Delete the heap->arr[1] (50)
+    delete_element(heap, 1);
+ 
+    print_heap(heap);
+    free_minheap(heap);
+    return 0;
+*/
+
+
+
+char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
+{
+    //Dividir p em 4 partes nearly iguais
+    integer_t lengthP1 = n % 2 + n / 2;
+    integer_t lengthP2 = n / 2;
+    integer_t lp1 = lengthP1 % 2 + lengthP1 / 2;
+    integer_t lp2 = lengthP1 / 2;
+    integer_t lp3 = lengthP2 % 2 + lengthP2 / 2;
+    integer_t lp4 = lengthP2 / 2;
+    
+    integer_t p1[lp1];
+    integer_t p2[lp2];
+    integer_t p3[lp3];
+    integer_t p4[lp4];
+
+    //Fazer arrays a1 a2 b1 b2 em que são geradas como min e max heaps sem usar memoria???????????????????????
+
+
+
+    //
+}
+
 
 //
 // main program
@@ -373,16 +580,15 @@ int main(void)
             // double t1 = cpu_time();
             // printf("Para n = %d | Found: %d | ", n, bruteForceRecursiveV3(n, p, desired_sum, 0, 0, result));
 
-            //printf("Result: ");
+            // printf("Result: ");
 
-            //for (int j = 0; j < n; j++)
-            //    printf("%d", result[j]);
+            // for (int j = 0; j < n; j++)
+            //     printf("%d", result[j]);
             //
-            //printf("\n");
-            // double t2 = cpu_time();
-            // printf("elapsed time: %.6f seconds\n", t2 - t1);
+            // printf("\n");
+            //  double t2 = cpu_time();
+            //  printf("elapsed time: %.6f seconds\n", t2 - t1);
             break;
-            
         }
     }
     return 0;
