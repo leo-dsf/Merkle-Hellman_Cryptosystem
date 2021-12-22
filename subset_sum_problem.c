@@ -363,7 +363,7 @@ int main(void)
             char found;
 
             //
-            // bruteForce() ---> (id = 0)
+            // bruteForce() ---> id = 0
             //
 
             /*
@@ -376,7 +376,7 @@ int main(void)
             }
 
             //
-            // bruteForceRecursive() ---> (id = 1)
+            // bruteForceRecursive() ---> id = 1
             //
 
             if (n >= 40)
@@ -389,7 +389,7 @@ int main(void)
             */
 
             //
-            // HorowitzSahni() ---> (id = 2)
+            // HorowitzSahni() ---> id = 2
             //
 
             double t1 = cpu_time();
