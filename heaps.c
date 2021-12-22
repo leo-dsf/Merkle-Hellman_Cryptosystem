@@ -1,5 +1,29 @@
+#if __STDC_VERSION__ < 199901L
+#error "This code must must be compiled in c99 mode or later (-std=c99)" // to handle the unsigned long long data type
+#endif
+#ifndef STUDENT_H_FILE
+#define STUDENT_H_FILE "000000.h"
+#endif
+
+//
+// include files
+//
+
 #include <stdio.h>
 #include <stdlib.h>
+#include "elapsed_time.h"
+#include STUDENT_H_FILE
+
+// QUARTA E ULTIMA FUNÇÃO
+// HEAPS
+// NODE IS AT INDEX I
+// LEFT CHILD IS AT 2*I
+// RIGHT CHILD IS AT 2*I+1
+// ITS PARENT IS AT 2/I
+// BINARY TREE HAS 2^(H-1)-1 NODES, H = HEIGHT OF BINARY TREE
+// minuto 31:54 https://www.youtube.com/watch?v=HqPJF2L5h9U
+// https://gist.github.com/sudhanshuptl/d86da25da46aa3d060e7be876bbdb343 -> min heap implementation
+// https://www.journaldev.com/36805/min-heap-binary-tree -> another min heap implementation
 
 typedef struct Heap Heap;
 struct Heap
@@ -7,11 +31,11 @@ struct Heap
     // type = 0 (Heap) || type = 1 (MaxHeap)
     char type;
     //
-    int *arr;
+    integer_t *arr;
     // Current Size of the Heap
-    int size;
+    integer_t size;
     // Maximum capacity of the heap
-    int capacity;
+    integer_t capacity;
 };
 
 int parent(int i)
@@ -46,10 +70,10 @@ int get_max(Heap *heap)
     return heap->arr[0];
 }
 
-Heap *init_heap(int capacity)
+Heap *init_heap(integer_t capacity)
 {
     Heap *heap = (Heap *)calloc(1, sizeof(Heap));
-    heap->arr = (int *)calloc(capacity, sizeof(int));
+    heap->arr = (integer_t *)calloc(capacity, sizeof(integer_t));
     heap->capacity = capacity;
     heap->size = 0;
     return heap;
@@ -172,8 +196,8 @@ Heap *heapify(Heap *heap, int index, char type)
         if (heap->size <= 1)
             return heap;
 
-        int left = left_child(index);
-        int right = right_child(index);
+        left = left_child(index);
+        right = right_child(index);
 
         // Variable to get the greatest element of the subtree
         // of an element an index
@@ -205,6 +229,7 @@ Heap *heapify(Heap *heap, int index, char type)
         return heap;
         break;
     }
+    return heap;
 }
 
 Heap *delete_minimum(Heap *heap)
@@ -280,7 +305,7 @@ Heap *delete_element(Heap *heap, int index, char type)
         heap->arr[index] = get_min(heap) - 1;
 
         // Now keep swapping, until we update the tree
-        int curr = index;
+        curr = index;
         while (curr > 0 && heap->arr[parent(curr)] < heap->arr[curr])
         {
             int temp = heap->arr[parent(curr)];
@@ -295,6 +320,7 @@ Heap *delete_element(Heap *heap, int index, char type)
         break;
         break;
     }
+    return heap;
 }
 
 void print_heap(Heap *heap, char type)
@@ -307,7 +333,7 @@ void print_heap(Heap *heap, char type)
         printf("Min Heap:\n");
         for (int i = 0; i < heap->size; i++)
         {
-            printf("%d -> ", heap->arr[i]);
+            printf("%llu -> ", heap->arr[i]);
         }
         printf("\n");
         break;
@@ -317,7 +343,7 @@ void print_heap(Heap *heap, char type)
         printf("Max Heap:\n");
         for (int i = 0; i < heap->size; i++)
         {
-            printf("%d -> ", heap->arr[i]);
+            printf("%llu -> ", heap->arr[i]);
         }
         printf("\n");
         break;
@@ -332,8 +358,142 @@ void free_heap(Heap *heap)
     free(heap);
 }
 
+void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
+{
+    printf("p = : ");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%lld;", p[i]);
+    }
+    printf("\n");
+    // Divide P into nearly equal 4 parts
+    int lengthP1 = n % 2 + n / 2;
+    int lengthP2 = n / 2;
+    int lp1 = lengthP1 % 2 + lengthP1 / 2;
+    int lp2 = lengthP1 / 2;
+    int lp3 = lengthP2 % 2 + lengthP2 / 2;
+    int lp4 = lengthP2 / 2;
+    printf("lp1 = %d;\nlp2 = %d;\nlp3 = %d;\nlp4 = %d;\n", lp1, lp2, lp3, lp4);
+
+    integer_t p1[lp1];
+    integer_t p2[lp2];
+    integer_t p3[lp3];
+    integer_t p4[lp4];
+
+    // Declaring Sum of all p L1 & L2 for minheap and R1 & R2 for max heap size = 2^lp
+    integer_t L1[(1 << lp1)];
+    integer_t L2[(1 << lp2)];
+    integer_t R1[(1 << lp3)];
+    integer_t R2[(1 << lp4)];
+
+    int c = 0;
+    for (int i = 0; i < lp1; i++)
+    {
+        p1[c] = p[i];
+        c++;
+    }
+    c = 0;
+    for (int i = lp1; i < lp1 + lp2; i++)
+    {
+        p2[c] = p[i];
+        c++;
+    }
+    c = 0;
+    for (int i = lp1 + lp2; i < lp1 + lp2 + lp3; i++)
+    {
+        p3[c] = p[i];
+        c++;
+    }
+    c = 0;
+    for (int i = lp1 + lp2 + lp3; i < lp1 + lp2 + lp3 + lp4; i++)
+    {
+        p4[c] = p[i];
+        c++;
+    }
+
+    printf("p1 = ");
+    for (int i = 0; i < lp1; i++)
+    {
+        printf("%lld;", p1[i]);
+    }
+    printf("\n");
+    printf("p2 = ");
+    for (int i = 0; i < lp2; i++)
+    {
+        printf("%lld;", p2[i]);
+    }
+    printf("\n");
+    printf("p3 = ");
+    for (int i = 0; i < lp3; i++)
+    {
+        printf("%lld;", p3[i]);
+    }
+    printf("\n");
+    printf("p4 = ");
+    for (int i = 0; i < lp4; i++)
+    {
+        printf("%lld;", p4[i]);
+    }
+    printf("\n");
+
+    integer_t i = 0;
+    while (i < (1 << lp1))
+    {
+        integer_t sum1 = 0;
+        integer_t sum2 = 0;
+        integer_t sum3 = 0;
+        integer_t sum4 = 0;
+        for (int j = 0; j < n; j++)
+        {
+            if (i & (1ull << j))
+            {
+                sum1 += p1[j];
+                if (i < (1 << lp2))
+                {
+                    sum2 += p2[j];
+                }
+                if (i < (1 << lp3))
+                {
+                    sum3 += p3[j];
+                }
+                if (i < (1 << lp4))
+                {
+                    sum4 += p4[j];
+                }
+            }
+            if (i < (1 << lp1))
+            {
+                L1[i] = sum1;
+            }
+            if (i < (1 << lp2))
+            {
+                L2[i] = sum2;
+            }
+            if (i < (1 << lp3))
+            {
+                R1[i] = sum3;
+            }
+            if (i < (1 << lp4))
+            {
+                R2[i] = sum4;
+            }
+            i++;
+        }
+
+        Heap *minheap = init_heap(1 << lp1);
+        Heap *maxheap = init_heap(1 << lp3);
+
+        print_heap(minheap, 0);
+        print_heap(maxheap, 1);
+
+        free_heap(minheap);
+        free_heap(maxheap);
+    }
+}
+
 int main()
 {
+    /*
     // Capacity of 10 elements
     Heap *minheap = init_heap(10);
     Heap *maxheap = init_heap(20);
@@ -362,5 +522,27 @@ int main()
 
     print_heap(minheap, 0);
     free_heap(minheap);
+    */
+    printf("n = 10\n");
+    integer_t *p = all_subset_sum_problems[1].p;
+    SchroeppelShamir(10, p, 50);
+    /*
+    for (int i = 1; i < n_problems; i++)
+    {
+        int n = all_subset_sum_problems[i].n; // The value of n
+
+        if (n > 20)
+            continue; // Skip large values of n
+
+        integer_t *p = all_subset_sum_problems[i].p; // The weights
+        for (int k = 0; k < n_sums; k++)
+        {
+            integer_t desired_sum = all_subset_sum_problems[i].sums[k]; // The desire_sum
+
+            break;
+        }
+    }
+    */
+
     return 0;
 }
