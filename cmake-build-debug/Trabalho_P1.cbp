@@ -76,6 +76,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/SchroeppelShamirs.c">
+			<Option target="Trabalho_P1"/>
+		</Unit>
 		<Unit filename="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/subset_sum_problem.c">
 			<Option target="Trabalho_P1"/>
 		</Unit>

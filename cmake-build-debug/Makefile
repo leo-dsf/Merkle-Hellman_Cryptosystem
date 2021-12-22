@@ -129,6 +129,30 @@ Trabalho_P1/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Trabalho_P1.dir/build.make CMakeFiles/Trabalho_P1.dir/build
 .PHONY : Trabalho_P1/fast
 
+SchroeppelShamirs.o: SchroeppelShamirs.c.o
+.PHONY : SchroeppelShamirs.o
+
+# target to build an object file
+SchroeppelShamirs.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Trabalho_P1.dir/build.make CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o
+.PHONY : SchroeppelShamirs.c.o
+
+SchroeppelShamirs.i: SchroeppelShamirs.c.i
+.PHONY : SchroeppelShamirs.i
+
+# target to preprocess a source file
+SchroeppelShamirs.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Trabalho_P1.dir/build.make CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.i
+.PHONY : SchroeppelShamirs.c.i
+
+SchroeppelShamirs.s: SchroeppelShamirs.c.s
+.PHONY : SchroeppelShamirs.s
+
+# target to generate assembly for a file
+SchroeppelShamirs.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Trabalho_P1.dir/build.make CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.s
+.PHONY : SchroeppelShamirs.c.s
+
 subset_sum_problem.o: subset_sum_problem.c.o
 .PHONY : subset_sum_problem.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Trabalho_P1"
+	@echo "... SchroeppelShamirs.o"
+	@echo "... SchroeppelShamirs.i"
+	@echo "... SchroeppelShamirs.s"
 	@echo "... subset_sum_problem.o"
 	@echo "... subset_sum_problem.i"
 	@echo "... subset_sum_problem.s"

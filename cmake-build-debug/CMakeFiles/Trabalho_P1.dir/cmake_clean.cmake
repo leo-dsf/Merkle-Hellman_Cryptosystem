@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o"
+  "CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o.d"
   "CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o"
   "CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o.d"
   "Trabalho_P1"
