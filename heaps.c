@@ -380,12 +380,6 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
     integer_t p3[lp3];
     integer_t p4[lp4];
 
-    // Declaring Sum of all p L1 & L2 for minheap and R1 & R2 for max heap size = 2^lp
-    integer_t L1[(1 << lp1)];
-    integer_t L2[(1 << lp2)];
-    integer_t R1[(1 << lp3)];
-    integer_t R2[(1 << lp4)];
-
     int c = 0;
     for (int i = 0; i < lp1; i++)
     {
@@ -436,6 +430,12 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
     }
     printf("\n");
 
+    // Declaring Sum of all p L1 & L2 for minheap and R1 & R2 for max heap size = 2^lp
+    integer_t L1[(1 << lp1)];
+    integer_t L2[(1 << lp2)];
+    integer_t R1[(1 << lp3)];
+    integer_t R2[(1 << lp4)];
+
     integer_t i = 0;
     while (i < (1 << lp1))
     {
@@ -461,34 +461,116 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
                     sum4 += p4[j];
                 }
             }
-            if (i < (1 << lp1))
+        }
+        if (i < (1 << lp1))
+        {
+            L1[i] = sum1;
+        }
+        if (i < (1 << lp2))
+        {
+            L2[i] = sum2;
+        }
+        if (i < (1 << lp3))
+        {
+            R1[i] = sum3;
+        }
+        if (i < (1 << lp4))
+        {
+            R2[i] = sum4;
+        }
+        i++;
+    }
+
+    printf("L1 = ");
+    for (int i = 0; i < (1 << lp1); i++)
+    {
+        printf("%lld;", L1[i]);
+    }
+    printf("\n");
+
+    printf("L2 = ");
+    for (int i = 0; i < (1 << lp2); i++)
+    {
+        printf("%lld;", L2[i]);
+    }
+    printf("\n");
+
+    printf("R1 = ");
+    for (int i = 0; i < (1 << lp3); i++)
+    {
+        printf("%lld;", R1[i]);
+    }
+    printf("\n");
+
+    printf("R2 = ");
+    for (int i = 0; i < (1 << lp4); i++)
+    {
+        printf("%lld;", R2[i]);
+    }
+    printf("\n");
+
+    Heap *minheap = init_heap(1ull << lengthP1);
+    Heap *maxheap = init_heap(1ull << lengthP2);
+
+    int found = 0;
+    i = 0; 
+    integer_t j = 0, k = (1ull << lp3) - 1, l = (1ull << lp4) - 1;
+    while (i < 1ull << lp1)
+    {
+        j=0;
+        while (j < 1ull << lp2)
+        {
+            if (L1[i] + L2[j] == desired_sum)
             {
-                L1[i] = sum1;
+                printf("FOUND\n");
+                found = 1;
+                break;
             }
-            if (i < (1 << lp2))
-            {
-                L2[i] = sum2;
-            }
-            if (i < (1 << lp3))
-            {
-                R1[i] = sum3;
-            }
-            if (i < (1 << lp4))
-            {
-                R2[i] = sum4;
-            }
-            i++;
+            insert_heap(minheap, L1[i] + L2[j], 0);
+            j++;
         }
 
-        Heap *minheap = init_heap(1 << lp1);
-        Heap *maxheap = init_heap(1 << lp3);
-
-        print_heap(minheap, 0);
-        print_heap(maxheap, 1);
-
-        free_heap(minheap);
-        free_heap(maxheap);
+        i++;
     }
+    while (k >= 0)
+    {
+        l = (1ull << lp4) - 1;
+        while (l >= 0)
+        {
+            if (R1[k] + R2[l] == desired_sum)
+            {
+                printf("FOUND\n");
+                found = 1;
+                break;
+            }
+            insert_heap(maxheap, R1[k] + R2[l], 0);
+            l--;
+        }
+        k--;
+    }
+    i = 0, j = 0;
+    while (found != 1)
+    {
+        if (minheap->arr[i] + maxheap->arr[j] == desired_sum)
+        {
+            printf("FOUND\n");
+            found = 1;
+        }else if (minheap->arr[i] + maxheap->arr[j] > desired_sum)
+        {
+            delete_maximum(maxheap);
+            
+        }else if (minheap->arr[i] + maxheap->arr[j] < desired_sum)
+        {
+            delete_minimum(minheap);
+        }
+        
+    }
+
+    print_heap(minheap, 0);
+    print_heap(maxheap, 1);
+
+    free_heap(minheap);
+    free_heap(maxheap);
 }
 
 int main()
