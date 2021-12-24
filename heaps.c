@@ -38,23 +38,23 @@ struct Heap
     integer_t capacity;
 };
 
-int parent(int i)
+integer_t parent(integer_t i)
 {
     // Get the index of the parent
     return (i - 1) / 2;
 }
 
-int left_child(int i)
+integer_t left_child(integer_t i)
 {
     return (2 * i + 1);
 }
 
-int right_child(int i)
+integer_t right_child(integer_t i)
 {
     return (2 * i + 2);
 }
 
-int get_min(Heap *heap)
+integer_t get_min(Heap *heap)
 {
     // Only for MinHeaps
     // Return the root node element,
@@ -62,7 +62,7 @@ int get_min(Heap *heap)
     return heap->arr[0];
 }
 
-int get_max(Heap *heap)
+integer_t get_max(Heap *heap)
 {
     // Only for MaxHeaps
     // Return the root node element,
@@ -72,7 +72,7 @@ int get_max(Heap *heap)
 
 Heap *init_heap(integer_t capacity)
 {
-    Heap *heap = (Heap *)calloc(1, sizeof(Heap));
+    Heap *heap = (Heap *)calloc(1ull, sizeof(Heap));
     heap->arr = (integer_t *)calloc(capacity, sizeof(integer_t));
     heap->capacity = capacity;
     heap->size = 0;
@@ -96,10 +96,10 @@ Heap *insert_heap(Heap *heap, integer_t element, char type)
         }
         // We can add it. Increase the size and add it to the end
         heap->size++;
-        heap->arr[heap->size - 1] = element;
+        heap->arr[heap->size - 1ull] = element;
 
         // Keep swapping until we reach the root
-        integer_t curr = heap->size - 1;
+        integer_t curr = heap->size - 1ull;
         // As long as you aren't in the root node, and while the
         // parent of the last element is greater than it
         while (curr > 0 && heap->arr[parent(curr)] > heap->arr[curr])
@@ -128,10 +128,10 @@ Heap *insert_heap(Heap *heap, integer_t element, char type)
         }
         // We can add it. Increase the size and add it to the end
         heap->size++;
-        heap->arr[heap->size - 1] = element;
+        heap->arr[heap->size - 1ull] = element;
 
         // Keep swapping until we reach the root
-        integer_t curr = heap->size - 1;
+        integer_t curr = heap->size - 1ull;
         // As long as you aren't in the root node, and while the
         // parent of the last element is lesser than it
         while (curr > 0 && heap->arr[parent(curr)] < heap->arr[curr])
@@ -155,7 +155,7 @@ Heap *heapify(Heap *heap, integer_t index, char type)
     case 0:
         // Rearranges the heap as to maintain
         // the min-heap property
-        if (heap->size <= 1)
+        if (heap->size <= 1ull)
             return heap;
 
         integer_t left = left_child(index);
@@ -193,7 +193,7 @@ Heap *heapify(Heap *heap, integer_t index, char type)
     case 1:
         // Rearranges the heap as to maintain
         // the max-heap property
-        if (heap->size <= 1)
+        if (heap->size <= 1ull)
             return heap;
 
         left = left_child(index);
@@ -509,8 +509,10 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
     }
     printf("\n");
 
-    Heap *minheap = init_heap(1ull << lengthP1);
-    Heap *maxheap = init_heap(1ull << lengthP2);
+    integer_t min_size = 1ull << lengthP1;
+    integer_t max_size = 1ull << lengthP2;
+    Heap *minheap = init_heap(min_size);
+    Heap *maxheap = init_heap(max_size);
 
     int found = 0;
     i = 0;
@@ -556,10 +558,10 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
 
         i++;
     }
-    printf("minheap size = %lld\n", minheap->size);
-    print_heap(minheap, 0);
-    printf("maxheap size = %lld\n", maxheap->size);
-    print_heap(maxheap, 1);
+    //printf("minheap size = %lld\n", minheap->size);
+    //print_heap(minheap, 0);
+    //printf("maxheap size = %lld\n", maxheap->size);
+    //print_heap(maxheap, 1);
 
     /*
     while (k >= 0)
@@ -591,13 +593,13 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         }
         else if (minheap->arr[0] + maxheap->arr[0] > desired_sum)
         {
-            printf("%lld + %lld = %lld > %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
+            //printf("%lld + %lld = %lld > %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
             delete_maximum(maxheap);
             //print_heap(maxheap, 1);
         }
         else if (minheap->arr[0] + maxheap->arr[0] < desired_sum)
         {
-            printf("%lld + %lld = %lld < %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
+            //printf("%lld + %lld = %lld < %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
             delete_minimum(minheap);
             //print_heap(minheap, 0);
         }
@@ -619,8 +621,8 @@ int main()
     /*
     // Capacity of 10 elements
     Heap *minheap = init_heap(10);
-    Heap *maxheap = init_heap(20);
-
+    Heap *maxheap = init_heap(1<<30);
+    printf("maxheap size : %lld\n",maxheap->size);
     insert_heap(minheap, 40, 0);
     insert_heap(minheap, 50, 0);
     insert_heap(minheap, 60, 0);
@@ -640,6 +642,8 @@ int main()
     insert_heap(maxheap, 11, 1);
     insert_heap(maxheap, 12, 1);
     insert_heap(maxheap, 13, 1);
+    insert_heap(maxheap, 1<<31,1);
+    printf("maxheap size : %lld\n",maxheap->size);
     //insert_heap(maxheap, 0, 1);
 
 
@@ -659,18 +663,18 @@ int main()
     free_heap(minheap);
     free_heap(maxheap);
     */
-
+    /*
    int n = all_subset_sum_problems[17].n;
    printf("n = %d\n",n);
    integer_t *p = all_subset_sum_problems[17].p;
    integer_t desired_sum = all_subset_sum_problems[11].sums[0];
    SchroeppelShamir(n, p, desired_sum);
-   /*
+   */
     for (int i = 1; i < n_problems; i++)
     {
         int n = all_subset_sum_problems[i].n; // The value of n
 
-        if (n > 30)
+        if (n > 35)
             continue; // Skip large values of n
 
         integer_t *p = all_subset_sum_problems[i].p; // The weights
@@ -688,7 +692,7 @@ int main()
             break;
         }
     }
-    */
+    
 
     return 0;
 }

@@ -38,23 +38,23 @@ struct Heap
     integer_t capacity;
 };
 
-int parent(int i)
+integer_t parent(integer_t i)
 {
     // Get the index of the parent
     return (i - 1) / 2;
 }
 
-int left_child(int i)
+integer_t left_child(integer_t i)
 {
     return (2 * i + 1);
 }
 
-int right_child(int i)
+integer_t right_child(integer_t i)
 {
     return (2 * i + 2);
 }
 
-int get_min(Heap *heap)
+integer_t get_min(Heap *heap)
 {
     // Only for MinHeaps
     // Return the root node element,
@@ -62,7 +62,7 @@ int get_min(Heap *heap)
     return heap->arr[0];
 }
 
-int get_max(Heap *heap)
+integer_t get_max(Heap *heap)
 {
     // Only for MaxHeaps
     // Return the root node element,
@@ -72,14 +72,14 @@ int get_max(Heap *heap)
 
 Heap *init_heap(integer_t capacity)
 {
-    Heap *heap = (Heap *)calloc(1, sizeof(Heap));
+    Heap *heap = (Heap *)calloc(1ull, sizeof(Heap));
     heap->arr = (integer_t *)calloc(capacity, sizeof(integer_t));
     heap->capacity = capacity;
     heap->size = 0;
     return heap;
 }
 
-Heap *insert_heap(Heap *heap, int element, char type)
+Heap *insert_heap(Heap *heap, integer_t element, char type)
 {
     if (type == 0)
     {
@@ -91,15 +91,15 @@ Heap *insert_heap(Heap *heap, int element, char type)
         // element in it's proper position to preserve the min heap property
         if (heap->size == heap->capacity)
         {
-            fprintf(stderr, "Cannot insert %d. Heap is already full!\n", element);
+            fprintf(stderr, "Cannot insert %llu. Heap is already full!\n", element);
             return heap;
         }
         // We can add it. Increase the size and add it to the end
         heap->size++;
-        heap->arr[heap->size - 1] = element;
+        heap->arr[heap->size - 1ull] = element;
 
         // Keep swapping until we reach the root
-        integer_t curr = heap->size - 1;
+        integer_t curr = heap->size - 1ull;
         // As long as you aren't in the root node, and while the
         // parent of the last element is greater than it
         while (curr > 0 && heap->arr[parent(curr)] > heap->arr[curr])
@@ -123,15 +123,15 @@ Heap *insert_heap(Heap *heap, int element, char type)
         // element in it's proper position to preserve the max heap property
         if (heap->size == heap->capacity)
         {
-            fprintf(stderr, "Cannot insert %d. Heap is already full!\n", element);
+            fprintf(stderr, "Cannot insert %llu. Heap is already full!\n", element);
             return heap;
         }
         // We can add it. Increase the size and add it to the end
         heap->size++;
-        heap->arr[heap->size - 1] = element;
+        heap->arr[heap->size - 1ull] = element;
 
         // Keep swapping until we reach the root
-        integer_t curr = heap->size - 1;
+        integer_t curr = heap->size - 1ull;
         // As long as you aren't in the root node, and while the
         // parent of the last element is lesser than it
         while (curr > 0 && heap->arr[parent(curr)] < heap->arr[curr])
@@ -155,7 +155,7 @@ Heap *heapify(Heap *heap, integer_t index, char type)
     case 0:
         // Rearranges the heap as to maintain
         // the min-heap property
-        if (heap->size <= 1)
+        if (heap->size <= 1ull)
             return heap;
 
         integer_t left = left_child(index);
@@ -193,7 +193,7 @@ Heap *heapify(Heap *heap, integer_t index, char type)
     case 1:
         // Rearranges the heap as to maintain
         // the max-heap property
-        if (heap->size <= 1)
+        if (heap->size <= 1ull)
             return heap;
 
         left = left_child(index);
@@ -358,42 +358,59 @@ void free_heap(Heap *heap)
     free(heap);
 }
 
-void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
+char decToBinary(integer_t n, integer_t c, int result[], int index)
+{
+    for (integer_t i = index; i < c + index; i++)
+    {
+        integer_t k = n >> (i - index);
+        if (k & 1)
+        {
+            result[i] = 1;
+        }
+        else
+        {
+            result[i] = 0;
+        }
+    }
+    return 0;
+}
+
+char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[])
 {
 
     // Divide P into nearly equal 4 parts
-    int lengthP1 = n % 2 + n / 2;
-    int lengthP2 = n / 2;
-    int lp1 = lengthP1 % 2 + lengthP1 / 2;
-    int lp2 = lengthP1 / 2;
-    int lp3 = lengthP2 % 2 + lengthP2 / 2;
-    int lp4 = lengthP2 / 2;
+    integer_t lengthP1 = n % 2 + n / 2;
+    integer_t lengthP2 = n / 2;
+    integer_t lp1 = lengthP1 % 2 + lengthP1 / 2;
+    integer_t lp2 = lengthP1 / 2;
+    integer_t lp3 = lengthP2 % 2 + lengthP2 / 2;
+    integer_t lp4 = lengthP2 / 2;
 
     integer_t p1[lp1];
     integer_t p2[lp2];
     integer_t p3[lp3];
     integer_t p4[lp4];
 
-    int c = 0;
-    for (int i = 0; i < lp1; i++)
+    integer_t c = 0;
+    for (integer_t i = 0; i < lp1; i++)
     {
         p1[c] = p[i];
         c++;
     }
     c = 0;
-    for (int i = lp1; i < lp1 + lp2; i++)
+    for (integer_t i = lp1; i < lp1 + lp2; i++)
     {
         p2[c] = p[i];
         c++;
     }
     c = 0;
-    for (int i = lp1 + lp2; i < lp1 + lp2 + lp3; i++)
+    for (integer_t i = lp1 + lp2; i < lp1 + lp2 + lp3; i++)
     {
         p3[c] = p[i];
         c++;
     }
     c = 0;
-    for (int i = lp1 + lp2 + lp3; i < lp1 + lp2 + lp3 + lp4; i++)
+    for (integer_t i = lp1 + lp2 + lp3; i < lp1 + lp2 + lp3 + lp4; i++)
     {
         p4[c] = p[i];
         c++;
@@ -412,7 +429,7 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         integer_t sum2 = 0;
         integer_t sum3 = 0;
         integer_t sum4 = 0;
-        for (int j = 0; j < n; j++)
+        for (integer_t j = 0; j < n; j++)
         {
             if (i & (1ull << j))
             {
@@ -450,8 +467,10 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         i++;
     }
 
-    Heap *minheap = init_heap(1ull << lengthP1);
-    Heap *maxheap = init_heap(1ull << lengthP2);
+    integer_t min_size = 1ull << lengthP1;
+    integer_t max_size = 1ull << lengthP2;
+    Heap *minheap = init_heap(min_size);
+    Heap *maxheap = init_heap(max_size);
 
     int found = 0;
     i = 0;
@@ -463,9 +482,29 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         {
             if (L1[i] + L2[j] == desired_sum)
             {
-                printf("FOUND\n");
+
                 found = 1;
-                break;
+                integer_t count = 0;
+                while (count < (1 << lp1))
+                {
+                    if (L1[count] == minheap->arr[0])
+                    {
+                        decToBinary(count, lp1, result, 0);
+                        break;
+                    }
+                    count++;
+                }
+                count = 0;
+                while (count < (1 << lp2))
+                {
+                    if (L2[count] == minheap->arr[0])
+                    {
+                        decToBinary(count, lp2, result, lp1);
+                        break;
+                    }
+                    count++;
+                }
+                return 1;
             }
             if (L1[i] + L2[j] < desired_sum)
             {
@@ -484,9 +523,29 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         {
             if (R1[i] + R2[j] == desired_sum)
             {
-                printf("FOUND\n");
+
                 found = 1;
-                break;
+                integer_t count = 0;
+                while (count < (1 << lp3))
+                {
+                    if (R1[count] == maxheap->arr[0])
+                    {
+                        decToBinary(count, lp3, result, 0);
+                        break;
+                    }
+                    count++;
+                }
+                count = 0;
+                while (count < (1 << lp4))
+                {
+                    if (R2[count] == maxheap->arr[0])
+                    {
+                        decToBinary(count, lp4, result, lp3);
+                        break;
+                    }
+                    count++;
+                }
+                return 1;
             }
             if (R1[i] + R2[j] < desired_sum)
             {
@@ -499,14 +558,54 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
     }
 
     integer_t counter = 0;
-    while (found != 1 )
+    while (found != 1)
     {
 
         if (minheap->arr[0] + maxheap->arr[0] == desired_sum)
         {
-            printf("FOUND\n");
+            //printf("FOUND\n -> %lld + %lld = %lld = %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
+            integer_t count = 0;
+            while (count < (1 << lp1))
+            {
+                if (L1[count] == minheap->arr[0])
+                {
+                    decToBinary(count, lp1, result, 0);
+                    break;
+                }
+                count++;
+            }
+            count = 0;
+            while (count < (1 << lp2))
+            {
+                if (L2[count] == minheap->arr[0])
+                {
+                    decToBinary(count, lp2, result, lp1);
+                    break;
+                }
+                count++;
+            }
+            count = 0;
+            while (count < (1 << lp3))
+            {
+                if (R1[count] == maxheap->arr[0])
+                {
+                    decToBinary(count, lp3, result, 0);
+                    break;
+                }
+                count++;
+            }
+            count = 0;
+            while (count < (1 << lp4))
+            {
+                if (R2[count] == maxheap->arr[0])
+                {
+                    decToBinary(count, lp4, result, lp3);
+                    break;
+                }
+                count++;
+            }
+            return 1;
             found = 1;
-            break;
         }
         else if (minheap->arr[0] + maxheap->arr[0] > desired_sum)
         {
@@ -518,20 +617,23 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
 
             delete_minimum(minheap);
         }
-        if (counter > 1 << ((n / 2) + 2))
+        if (counter > (minheap->size * maxheap->size))
         {
             printf("NOT FOUND\n");
+            return 0;
             break;
         }
         counter++;
     }
+
     free_heap(minheap);
     free_heap(maxheap);
+
+    return 0;
 }
 
 int main()
 {
-
     for (int i = 0; i < n_problems; i++)
     {
         int n = all_subset_sum_problems[i].n; // The value of n
@@ -543,14 +645,23 @@ int main()
         for (int k = 0; k < n_sums; k++)
         {
             integer_t desired_sum = all_subset_sum_problems[i].sums[k]; // The desire_sum
-            printf("n = %d\n", n);
+            int result[n];                                              // Array with the result
+            for (int j = 0; j < n; j++)
+                result[j] = 0;
+            char found;
+
             double t1 = cpu_time();
-            SchroeppelShamir(n, p, desired_sum);
+            found = SchroeppelShamir(n, p, desired_sum, result);
             double t2 = cpu_time();
-            printf("elapsed time: %.6f seconds\n", t2 - t1);
+            // fprintf(fp, "%d %d %d %d %f\n", 2, n, k, found, t2 - t1);
+
+            printf("For n = %d | Found: %d | Time: %f (s) | ", n, found, t2 - t1);
+            printf("Result: ");
+            for (int j = 0; j < n; j++)
+                printf("%d", result[j]);
+            printf("\n");
             break;
         }
     }
-
     return 0;
 }
