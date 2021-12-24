@@ -1,1 +1,0 @@
-/usr/bin/cc -g -lm -O3 CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o -o Trabalho_P1 

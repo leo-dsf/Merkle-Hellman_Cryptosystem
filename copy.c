@@ -79,7 +79,7 @@ Heap *init_heap(integer_t capacity)
     return heap;
 }
 
-Heap *insert_heap(Heap *heap, int element, char type)
+Heap *insert_heap(Heap *heap, integer_t element, char type)
 {
     if (type == 0)
     {
@@ -91,7 +91,7 @@ Heap *insert_heap(Heap *heap, int element, char type)
         // element in it's proper position to preserve the min heap property
         if (heap->size == heap->capacity)
         {
-            fprintf(stderr, "Cannot insert %d. Heap is already full!\n", element);
+            fprintf(stderr, "Cannot insert %llu. Heap is already full!\n", element);
             return heap;
         }
         // We can add it. Increase the size and add it to the end
@@ -105,7 +105,7 @@ Heap *insert_heap(Heap *heap, int element, char type)
         while (curr > 0 && heap->arr[parent(curr)] > heap->arr[curr])
         {
             // Swap
-            int temp = heap->arr[parent(curr)];
+            integer_t temp = heap->arr[parent(curr)];
             heap->arr[parent(curr)] = heap->arr[curr];
             heap->arr[curr] = temp;
             // Update the current index of element
@@ -123,7 +123,7 @@ Heap *insert_heap(Heap *heap, int element, char type)
         // element in it's proper position to preserve the max heap property
         if (heap->size == heap->capacity)
         {
-            fprintf(stderr, "Cannot insert %d. Heap is already full!\n", element);
+            fprintf(stderr, "Cannot insert %llu. Heap is already full!\n", element);
             return heap;
         }
         // We can add it. Increase the size and add it to the end
@@ -137,7 +137,7 @@ Heap *insert_heap(Heap *heap, int element, char type)
         while (curr > 0 && heap->arr[parent(curr)] < heap->arr[curr])
         {
             // Swap
-            int temp = heap->arr[parent(curr)];
+            integer_t temp = heap->arr[parent(curr)];
             heap->arr[parent(curr)] = heap->arr[curr];
             heap->arr[curr] = temp;
             // Update the current index of element
@@ -148,7 +148,7 @@ Heap *insert_heap(Heap *heap, int element, char type)
     return heap;
 }
 
-Heap *heapify(Heap *heap, int index, char type)
+Heap *heapify(Heap *heap, integer_t index, char type)
 {
     switch (type)
     {
@@ -158,12 +158,12 @@ Heap *heapify(Heap *heap, int index, char type)
         if (heap->size <= 1ull)
             return heap;
 
-        int left = left_child(index);
-        int right = right_child(index);
+        integer_t left = left_child(index);
+        integer_t right = right_child(index);
 
         // Variable to get the smallest element of the subtree
         // of an element an index
-        int smallest = index;
+        integer_t smallest = index;
 
         // If the left child is smaller than this element, it is
         // the smallest
@@ -182,7 +182,7 @@ Heap *heapify(Heap *heap, int index, char type)
         // the point at which there will be no change!
         if (smallest != index)
         {
-            int temp = heap->arr[index];
+            integer_t temp = heap->arr[index];
             heap->arr[index] = heap->arr[smallest];
             heap->arr[smallest] = temp;
             heap = heapify(heap, smallest, 0);
@@ -201,16 +201,16 @@ Heap *heapify(Heap *heap, int index, char type)
 
         // Variable to get the greatest element of the subtree
         // of an element an index
-        int greatest = index;
+        integer_t greatest = index;
 
         // If the left child is greatest than this element, it is
         // the greatest
-        if (left > heap->size && heap->arr[left] > heap->arr[index])
+        if (left < heap->size && heap->arr[left] > heap->arr[index])
             greatest = left;
 
         // Similarly for the right, but we are updating the greatest element
         // so that it will definitely give the least element of the subtree
-        if (right > heap->size && heap->arr[right] > heap->arr[greatest])
+        if (right < heap->size && heap->arr[right] > heap->arr[greatest])
             greatest = right;
 
         // Now if the current element is not the greatest,
@@ -220,10 +220,10 @@ Heap *heapify(Heap *heap, int index, char type)
         // the point at which there will be no change!
         if (greatest != index)
         {
-            int temp = heap->arr[index];
+            integer_t temp = heap->arr[index];
             heap->arr[index] = heap->arr[greatest];
             heap->arr[greatest] = temp;
-            heap = heapify(heap, greatest, 0);
+            heap = heapify(heap, greatest, 1);
         }
 
         return heap;
@@ -238,8 +238,8 @@ Heap *delete_minimum(Heap *heap)
     if (!heap || heap->size == 0)
         return heap;
 
-    int size = heap->size;
-    int last_element = heap->arr[size - 1];
+    integer_t size = heap->size;
+    integer_t last_element = heap->arr[size - 1];
 
     // Update root value with the last element
     heap->arr[0] = last_element;
@@ -260,8 +260,8 @@ Heap *delete_maximum(Heap *heap)
     if (!heap || heap->size == 0)
         return heap;
 
-    int size = heap->size;
-    int last_element = heap->arr[size - 1];
+    integer_t size = heap->size;
+    integer_t last_element = heap->arr[size - 1];
 
     // Update root value with the last element
     heap->arr[0] = last_element;
@@ -276,7 +276,7 @@ Heap *delete_maximum(Heap *heap)
     return heap;
 }
 
-Heap *delete_element(Heap *heap, int index, char type)
+Heap *delete_element(Heap *heap, integer_t index, char type)
 {
     switch (type)
     {
@@ -286,10 +286,10 @@ Heap *delete_element(Heap *heap, int index, char type)
         heap->arr[index] = get_min(heap) - 1;
 
         // Now keep swapping, until we update the tree
-        int curr = index;
+        integer_t curr = index;
         while (curr > 0 && heap->arr[parent(curr)] > heap->arr[curr])
         {
-            int temp = heap->arr[parent(curr)];
+            integer_t temp = heap->arr[parent(curr)];
             heap->arr[parent(curr)] = heap->arr[curr];
             heap->arr[curr] = temp;
             curr = parent(curr);
@@ -308,7 +308,7 @@ Heap *delete_element(Heap *heap, int index, char type)
         curr = index;
         while (curr > 0 && heap->arr[parent(curr)] < heap->arr[curr])
         {
-            int temp = heap->arr[parent(curr)];
+            integer_t temp = heap->arr[parent(curr)];
             heap->arr[parent(curr)] = heap->arr[curr];
             heap->arr[curr] = temp;
             curr = parent(curr);
@@ -358,77 +358,63 @@ void free_heap(Heap *heap)
     free(heap);
 }
 
-void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
+char decToBinary(integer_t n, integer_t c, int result[], int index)
 {
-    printf("p = : ");
-    for (int i = 0; i < n; i++)
+    for (integer_t i = index; i < c + index; i++)
     {
-        printf("%lld;", p[i]);
+        integer_t k = n >> (i - index);
+        if (k & 1)
+        {
+            result[i] = 1;
+        }
+        else
+        {
+            result[i] = 0;
+        }
     }
-    printf("\n");
+    return 0;
+}
+
+char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[])
+{
+
     // Divide P into nearly equal 4 parts
-    int lengthP1 = n % 2 + n / 2;
-    int lengthP2 = n / 2;
-    int lp1 = lengthP1 % 2 + lengthP1 / 2;
-    int lp2 = lengthP1 / 2;
-    int lp3 = lengthP2 % 2 + lengthP2 / 2;
-    int lp4 = lengthP2 / 2;
-    printf("lp1 = %d;\nlp2 = %d;\nlp3 = %d;\nlp4 = %d;\n", lp1, lp2, lp3, lp4);
+    integer_t lengthP1 = n % 2 + n / 2;
+    integer_t lengthP2 = n / 2;
+    integer_t lp1 = lengthP1 % 2 + lengthP1 / 2;
+    integer_t lp2 = lengthP1 / 2;
+    integer_t lp3 = lengthP2 % 2 + lengthP2 / 2;
+    integer_t lp4 = lengthP2 / 2;
 
     integer_t p1[lp1];
     integer_t p2[lp2];
     integer_t p3[lp3];
     integer_t p4[lp4];
 
-    int c = 0;
-    for (int i = 0; i < lp1; i++)
+    integer_t c = 0;
+    for (integer_t i = 0; i < lp1; i++)
     {
         p1[c] = p[i];
         c++;
     }
     c = 0;
-    for (int i = lp1; i < lp1 + lp2; i++)
+    for (integer_t i = lp1; i < lp1 + lp2; i++)
     {
         p2[c] = p[i];
         c++;
     }
     c = 0;
-    for (int i = lp1 + lp2; i < lp1 + lp2 + lp3; i++)
+    for (integer_t i = lp1 + lp2; i < lp1 + lp2 + lp3; i++)
     {
         p3[c] = p[i];
         c++;
     }
     c = 0;
-    for (int i = lp1 + lp2 + lp3; i < lp1 + lp2 + lp3 + lp4; i++)
+    for (integer_t i = lp1 + lp2 + lp3; i < lp1 + lp2 + lp3 + lp4; i++)
     {
         p4[c] = p[i];
         c++;
     }
-
-    printf("p1 = ");
-    for (int i = 0; i < lp1; i++)
-    {
-        printf("%lld;", p1[i]);
-    }
-    printf("\n");
-    printf("p2 = ");
-    for (int i = 0; i < lp2; i++)
-    {
-        printf("%lld;", p2[i]);
-    }
-    printf("\n");
-    printf("p3 = ");
-    for (int i = 0; i < lp3; i++)
-    {
-        printf("%lld;", p3[i]);
-    }
-    printf("\n");
-    printf("p4 = ");
-    for (int i = 0; i < lp4; i++)
-    {
-        printf("%lld;", p4[i]);
-    }
-    printf("\n");
 
     // Declaring Sum of all p L1 & L2 for minheap and R1 & R2 for max heap size = 2^lp
     integer_t L1[(1 << lp1)];
@@ -437,13 +423,13 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
     integer_t R2[(1 << lp4)];
 
     integer_t i = 0;
-    while (i < (1 << lp1))
+    while (i < (1ull << lp1))
     {
         integer_t sum1 = 0;
         integer_t sum2 = 0;
         integer_t sum3 = 0;
         integer_t sum4 = 0;
-        for (int j = 0; j < n; j++)
+        for (integer_t j = 0; j < n; j++)
         {
             if (i & (1ull << j))
             {
@@ -481,171 +467,201 @@ void SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         i++;
     }
 
-    printf("L1 = ");
-    for (int i = 0; i < (1 << lp1); i++)
-    {
-        printf("%lld;", L1[i]);
-    }
-    printf("\n");
-
-    printf("L2 = ");
-    for (int i = 0; i < (1 << lp2); i++)
-    {
-        printf("%lld;", L2[i]);
-    }
-    printf("\n");
-
-    printf("R1 = ");
-    for (int i = 0; i < (1 << lp3); i++)
-    {
-        printf("%lld;", R1[i]);
-    }
-    printf("\n");
-
-    printf("R2 = ");
-    for (int i = 0; i < (1 << lp4); i++)
-    {
-        printf("%lld;", R2[i]);
-    }
-    printf("\n");
-
     integer_t min_size = 1ull << lengthP1;
     integer_t max_size = 1ull << lengthP2;
     Heap *minheap = init_heap(min_size);
     Heap *maxheap = init_heap(max_size);
 
     int found = 0;
-    i = 0; 
-    integer_t j = 0, k = (1ull << lp3) - 1, l = (1ull << lp4) - 1;
+    i = 0;
+    integer_t j = 0;
     while (i < 1ull << lp1)
     {
-        j=0;
+        j = 0;
         while (j < 1ull << lp2)
         {
             if (L1[i] + L2[j] == desired_sum)
             {
-                printf("FOUND\n");
+
                 found = 1;
-                break;
+                integer_t count = 0;
+                while (count < (1 << lp1))
+                {
+                    if (L1[count] == minheap->arr[0])
+                    {
+                        decToBinary(count, lp1, result, 0);
+                        break;
+                    }
+                    count++;
+                }
+                count = 0;
+                while (count < (1 << lp2))
+                {
+                    if (L2[count] == minheap->arr[0])
+                    {
+                        decToBinary(count, lp2, result, lp1);
+                        break;
+                    }
+                    count++;
+                }
+                return 1;
             }
-            insert_heap(minheap, L1[i] + L2[j], 0);
+            if (L1[i] + L2[j] < desired_sum)
+            {
+                insert_heap(minheap, L1[i] + L2[j], 0);
+            }
             j++;
         }
 
         i++;
     }
-    //printf("minheap size = %lld\n", minheap->size);
-    //print_heap(minheap, 0);
-    //printf("maxheap size = %lld\n", maxheap->size);
-    //print_heap(maxheap, 1);
-
-    /*
-    while (k >= 0)
+    i = 0;
+    while (i < 1ull << lp3)
     {
-        l = (1ull << lp4) - 1;
-        while (l >= 0)
+        j = 0;
+        while (j < 1ull << lp4)
         {
-            if (R1[k] + R2[l] == desired_sum)
+            if (R1[i] + R2[j] == desired_sum)
             {
-                printf("FOUND\n");
+
                 found = 1;
-                break;
+                integer_t count = 0;
+                while (count < (1 << lp3))
+                {
+                    if (R1[count] == maxheap->arr[0])
+                    {
+                        decToBinary(count, lp3, result, 0);
+                        break;
+                    }
+                    count++;
+                }
+                count = 0;
+                while (count < (1 << lp4))
+                {
+                    if (R2[count] == maxheap->arr[0])
+                    {
+                        decToBinary(count, lp4, result, lp3);
+                        break;
+                    }
+                    count++;
+                }
+                return 1;
             }
-            insert_heap(maxheap, R1[k] + R2[l], 0);
-            l--;
+            if (R1[i] + R2[j] < desired_sum)
+            {
+                insert_heap(maxheap, R1[i] + R2[j], 1);
+            }
+            j++;
         }
-        k--;
+
+        i++;
     }
-    i = 0, j = 0;
+
+    integer_t counter = 0;
     while (found != 1)
     {
-        if (minheap->arr[i] + maxheap->arr[j] == desired_sum)
+
+        if (minheap->arr[0] + maxheap->arr[0] == desired_sum)
         {
-            printf("FOUND\n");
+            //printf("FOUND\n -> %lld + %lld = %lld = %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
+            integer_t count = 0;
+            while (count < (1 << lp1))
+            {
+                if (L1[count] == minheap->arr[0])
+                {
+                    decToBinary(count, lp1, result, 0);
+                    break;
+                }
+                count++;
+            }
+            count = 0;
+            while (count < (1 << lp2))
+            {
+                if (L2[count] == minheap->arr[0])
+                {
+                    decToBinary(count, lp2, result, lp1);
+                    break;
+                }
+                count++;
+            }
+            count = 0;
+            while (count < (1 << lp3))
+            {
+                if (R1[count] == maxheap->arr[0])
+                {
+                    decToBinary(count, lp3, result, 0);
+                    break;
+                }
+                count++;
+            }
+            count = 0;
+            while (count < (1 << lp4))
+            {
+                if (R2[count] == maxheap->arr[0])
+                {
+                    decToBinary(count, lp4, result, lp3);
+                    break;
+                }
+                count++;
+            }
+            return 1;
             found = 1;
-        }else if (minheap->arr[i] + maxheap->arr[j] > desired_sum)
+        }
+        else if (minheap->arr[0] + maxheap->arr[0] > desired_sum)
         {
-            //printf("%lld + %lld = %lld > %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
+
             delete_maximum(maxheap);
-            
-        }else if (minheap->arr[i] + maxheap->arr[j] < desired_sum)
+        }
+        else if (minheap->arr[0] + maxheap->arr[0] < desired_sum)
         {
-            //printf("%lld + %lld = %lld < %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
+
             delete_minimum(minheap);
         }
-        
+        if (counter > (minheap->size * maxheap->size))
+        {
+            printf("NOT FOUND\n");
+            return 0;
+            break;
+        }
+        counter++;
     }
-
-    print_heap(minheap, 0);
-    print_heap(maxheap, 1);
 
     free_heap(minheap);
     free_heap(maxheap);
+
+    return 0;
 }
 
 int main()
 {
-    /*
-    // Capacity of 10 elements
-    Heap *minheap = init_heap(10);
-    Heap *maxheap = init_heap(1<<30);
-    printf("maxheap size : %lld\n",maxheap->size);
-    insert_heap(minheap, 40, 0);
-    insert_heap(minheap, 50, 0);
-    insert_heap(minheap, 60, 0);
-    insert_heap(minheap, 10, 0);
-    insert_heap(minheap, 30, 0);
-    insert_heap(minheap, 15, 0);
-    insert_heap(minheap, 55, 0);
-    insert_heap(minheap, 23, 0);
-    insert_heap(minheap, 100, 0);
-
-    print_heap(minheap, 0);
-
-    insert_heap(maxheap, 40, 1);
-    insert_heap(maxheap, 50, 1);
-    insert_heap(maxheap, 60, 1);
-    insert_heap(maxheap, 10, 1);
-    insert_heap(maxheap, 11, 1);
-    insert_heap(maxheap, 12, 1);
-    insert_heap(maxheap, 13, 1);
-    insert_heap(maxheap, 1<<31,1);
-    printf("maxheap size : %lld\n",maxheap->size);
-    //insert_heap(maxheap, 0, 1);
-
-
-
-    print_heap(maxheap, 1);
-
-    // Delete the heap->arr[1] (23)
-    delete_element(minheap, 1, 0);
-
-    print_heap(minheap, 0);
-    free_heap(minheap);
-    */
-    /*
-   int n = all_subset_sum_problems[17].n;
-   printf("n = %d\n",n);
-   integer_t *p = all_subset_sum_problems[17].p;
-   integer_t desired_sum = all_subset_sum_problems[11].sums[0];
-   SchroeppelShamir(n, p, desired_sum);
-   */
-    for (int i = 1; i < n_problems; i++)
+    for (int i = 0; i < n_problems; i++)
     {
         int n = all_subset_sum_problems[i].n; // The value of n
 
-        if (n > 35)
+        if (n > 57)
             continue; // Skip large values of n
 
         integer_t *p = all_subset_sum_problems[i].p; // The weights
         for (int k = 0; k < n_sums; k++)
         {
             integer_t desired_sum = all_subset_sum_problems[i].sums[k]; // The desire_sum
+            int result[n];                                              // Array with the result
+            for (int j = 0; j < n; j++)
+                result[j] = 0;
+            char found;
 
+            double t1 = cpu_time();
+            found = SchroeppelShamir(n, p, desired_sum, result);
+            double t2 = cpu_time();
+            // fprintf(fp, "%d %d %d %d %f\n", 2, n, k, found, t2 - t1);
+
+            printf("For n = %d | Found: %d | Time: %f (s) | ", n, found, t2 - t1);
+            printf("Result: ");
+            for (int j = 0; j < n; j++)
+                printf("%d", result[j]);
+            printf("\n");
             break;
         }
     }
-    
-
     return 0;
 }

@@ -257,6 +257,7 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
     // When converting the index to binary and inverting order I will have the result
 
     integer_t i = 0;
+    int gte1_desired_sum = 0, gte2_desired_sum = 0;
     while (i < total1)
     {
         integer_t sum1 = 0;
@@ -272,32 +273,70 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
                 }
             }
         }
-        s1[i] = sum1;
+        if (sum1 <= desired_sum)
+        {
+            s1[i] = sum1;
+        }
+        else
+            gte1_desired_sum++;
         duplicated_s1[i] = sum1;
 
         if (i < total2)
         {
-            s2[i] = sum2;
+            if (sum2 <= desired_sum)
+            {
+                s2[i] = sum2;
+            }
+            else
+                gte2_desired_sum++;
             duplicated_s2[i] = sum2;
         }
         i++;
     }
+    integer_t *s1minusgt, *s2minusgt;
+    s1minusgt = (integer_t *)malloc((total1 - gte1_desired_sum) * sizeof(integer_t));
+    s2minusgt = (integer_t *)malloc((total2 - gte2_desired_sum) * sizeof(integer_t));
+    integer_t z = 1ull;
+    for (integer_t index = 0; index < total1; index++)
+    {
+        s1minusgt[0ull] = 0ull;
+        if (s1[index] == 0ull)
+            continue;
+        else
+        {
+            s1minusgt[z] = s1[index];
+            z++;
+        }
+    }
+    z = 1ull;
+    for (integer_t index = 0ull; index < total2; index++)
+    {
+        s2minusgt[0ull] = 0ull;
+        if (s1[index] == 0ull)
+            continue;
+        else
+        {
+            s2minusgt[z] = s2[index];
+            z++;
+        }
+
+    }
 
     // Sorting with quick sort method
-    quickSort(s1, 0, total1 - 1);
-    quickSort(s2, 0, total2 - 1);
+    quickSort(s1minusgt, 0, total1 - gte1_desired_sum - 1);
+    quickSort(s2minusgt, 0, total2 - gte2_desired_sum - 1);
 
     integer_t k = 0;
-    integer_t j = total2 - 1;
-    while (k < total1 && j >= 0)
+    integer_t j = total2 - gte2_desired_sum - 1;
+    while (k < total1 - gte1_desired_sum && j >= 0)
     {
-        if (s1[k] + s2[j] == desired_sum)
+        if (s1minusgt[k] + s2minusgt[j] == desired_sum)
         {
             // finding indexes
             integer_t count = 0;
             while (count < total1)
             {
-                if (duplicated_s1[count] == s1[k])
+                if (duplicated_s1[count] == s1minusgt[k])
                 {
                     decToBinary(count, lengthP1, result, 0);
                     break;
@@ -307,7 +346,7 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             count = 0;
             while (count < total2)
             {
-                if (duplicated_s2[count] == s2[j])
+                if (duplicated_s2[count] == s2minusgt[j])
                 {
                     decToBinary(count, lengthP2, result,lengthP1);
                     break;
@@ -316,11 +355,11 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             }
             return 1;
         }
-        else if (s1[k] + s2[j] < desired_sum)
+        else if (s1minusgt[k] + s2minusgt[j] < desired_sum)
         {
             k++;
         }
-        else if (s1[k] + s2[j] > desired_sum)
+        else if (s1minusgt[k] + s2minusgt[j] > desired_sum)
         {
             j--;
         }
@@ -329,6 +368,8 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
     free(s2);
     free(duplicated_s1);
     free(duplicated_s2);
+    free(s1minusgt);
+    free(s2minusgt);
     return 0;
 }
 
@@ -374,11 +415,9 @@ int main(void)
                 double t2 = cpu_time();
                 fprintf(fp, "%d %d %d %d %f\n", 0, n, k, found, t2 - t1);
             }
-
             //
             // bruteForceRecursive() ---> id = 1
             //
-
             if (n >= 40)
             {
                 double t1 = cpu_time();
@@ -400,8 +439,8 @@ int main(void)
             printf("For n = %d | Found: %d | Time: %f (s) | ", n, found, t2-t1);
             printf("Result: ");
             for (int j = 0; j < n; j++)
-                 printf("%d", result[j]);
-             printf("\n");
+                printf("%d", result[j]);
+            printf("\n");
             break;
         }
     }
