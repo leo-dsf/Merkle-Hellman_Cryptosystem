@@ -349,7 +349,7 @@ int main(void)
 
     // FILE *fp = fopen("data.txt","w");
 
-    for (int i = 22; i < n_problems; i++)
+    for (int i = 35; i < n_problems; i++)
     {
         int n = all_subset_sum_problems[i].n; // The value of n
 
