@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug"
+			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -527,7 +527,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1"
+			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1095,7 +1095,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug"
+			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug"
 		},
 		{
 			"name" : "Trabalho_P1_IS_TOP_LEVEL",
@@ -1119,7 +1119,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1"
+			"value" : "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1"
 		}
 	],
 	"kind" : "cache",

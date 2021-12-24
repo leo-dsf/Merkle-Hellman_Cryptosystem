@@ -606,8 +606,10 @@ int main()
     free_heap(minheap);
     */
     printf("n = 10\n");
-    integer_t *p = all_subset_sum_problems[1].p;
-    SchroeppelShamir(10, p, 50);
+    int n = all_subset_sum_problems[0].n;
+    integer_t *p = all_subset_sum_problems[0].p;
+    integer_t desired_sum = all_subset_sum_problems[0].sums[0];
+    SchroeppelShamir(n, p, desired_sum);
     /*
     for (int i = 1; i < n_problems; i++)
     {

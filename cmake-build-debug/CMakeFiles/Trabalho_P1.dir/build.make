@@ -53,10 +53,10 @@ RM = /snap/clion/177/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1"
+CMAKE_SOURCE_DIR = "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug"
+CMAKE_BINARY_DIR = "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Trabalho_P1.dir/depend.make
@@ -72,30 +72,30 @@ include CMakeFiles/Trabalho_P1.dir/flags.make
 CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o: CMakeFiles/Trabalho_P1.dir/flags.make
 CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o: ../subset_sum_problem.c
 CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o: CMakeFiles/Trabalho_P1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o -MF CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o.d -o CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o -c "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/subset_sum_problem.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o -MF CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o.d -o CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o -c "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/subset_sum_problem.c"
 
 CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/subset_sum_problem.c" > CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/subset_sum_problem.c" > CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.i
 
 CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/subset_sum_problem.c" -o CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/subset_sum_problem.c" -o CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.s
 
 CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o: CMakeFiles/Trabalho_P1.dir/flags.make
 CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o: ../SchroeppelShamirs.c
 CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o: CMakeFiles/Trabalho_P1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o -MF CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o.d -o CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o -c "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/SchroeppelShamirs.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o -MF CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o.d -o CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o -c "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/SchroeppelShamirs.c"
 
 CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/SchroeppelShamirs.c" > CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/SchroeppelShamirs.c" > CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.i
 
 CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/SchroeppelShamirs.c" -o CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/SchroeppelShamirs.c" -o CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.s
 
 # Object files for target Trabalho_P1
 Trabalho_P1_OBJECTS = \
@@ -109,7 +109,7 @@ Trabalho_P1: CMakeFiles/Trabalho_P1.dir/subset_sum_problem.c.o
 Trabalho_P1: CMakeFiles/Trabalho_P1.dir/SchroeppelShamirs.c.o
 Trabalho_P1: CMakeFiles/Trabalho_P1.dir/build.make
 Trabalho_P1: CMakeFiles/Trabalho_P1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable Trabalho_P1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable Trabalho_P1"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Trabalho_P1.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -121,6 +121,6 @@ CMakeFiles/Trabalho_P1.dir/clean:
 .PHONY : CMakeFiles/Trabalho_P1.dir/clean
 
 CMakeFiles/Trabalho_P1.dir/depend:
-	cd "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/P/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles/Trabalho_P1.dir/DependInfo.cmake" --color=$(COLOR)
+	cd "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug" "/home/leonardodsf/Documents/Universidade/2º Ano/1º Semestre/AED/Projetos/AED-Trabalho-P1/AED-Trabalho-P1/cmake-build-debug/CMakeFiles/Trabalho_P1.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Trabalho_P1.dir/depend
 
