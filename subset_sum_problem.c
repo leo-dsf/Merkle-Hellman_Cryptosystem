@@ -374,11 +374,9 @@ int main(void)
                 double t2 = cpu_time();
                 fprintf(fp, "%d %d %d %d %f\n", 0, n, k, found, t2 - t1);
             }
-
             //
             // bruteForceRecursive() ---> id = 1
             //
-
             if (n >= 40)
             {
                 double t1 = cpu_time();
@@ -400,8 +398,8 @@ int main(void)
             printf("For n = %d | Found: %d | Time: %f (s) | ", n, found, t2-t1);
             printf("Result: ");
             for (int j = 0; j < n; j++)
-                 printf("%d", result[j]);
-             printf("\n");
+                printf("%d", result[j]);
+            printf("\n");
             break;
         }
     }
