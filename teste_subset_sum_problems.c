@@ -225,10 +225,15 @@ char decToBinary(integer_t n, integer_t c, int result[], int index)
 
 char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int result[])
 {
+
     int lengthP1 = n % 2 + n / 2;
+
     int lengthP2 = n / 2;
+
     integer_t p1[n % 2 + n / 2];
+
     integer_t p2[n / 2];
+
 
     int c = 0;
     for (int j = 0; j < n; j++)
@@ -246,18 +251,25 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
 
     // Making Subset sums
     integer_t total1 = (1 << lengthP1); // s1 length 2^n
+
     integer_t total2 = (1 << lengthP2); // s2 length
+
     integer_t *s1, *s2, *duplicated_s1, *duplicated_s2;
     s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
+
     s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
+
     duplicated_s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
+
     duplicated_s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
 
     // Calculating subset sums and duplicating arrays -> Need to find another way to save sums indexes
     // When converting the index to binary and inverting order I will have the result
 
     integer_t i = 0;
-    int gte1_desired_sum = 0, gte2_desired_sum = 0;
+
+    integer_t gte1_desired_sum = 0, gte2_desired_sum = 0;
+
     while (i < total1)
     {
         integer_t sum1 = 0;
@@ -305,27 +317,27 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
         else
         {
             s1minusgt[z] = s1[index];
-            z++;
         }
+        z++;
     }
     z = 1ull;
     for (integer_t index = 0ull; index < total2; index++)
     {
         s2minusgt[0ull] = 0ull;
-        if (s1[index] == 0ull)
+        if (s2[index] == 0ull)
             continue;
         else
         {
             s2minusgt[z] = s2[index];
-            z++;
         }
-
+        z++;
     }
 
     // Sorting with quick sort method
-    quickSort(s1minusgt, 0, total1 - gte1_desired_sum - 1);
-    quickSort(s2minusgt, 0, total2 - gte2_desired_sum - 1);
-
+    quickSort(s1minusgt, 0, (total1 - gte1_desired_sum - 1));
+    quickSort(s2minusgt, 0, (total2 - gte2_desired_sum - 1));
+    free(s1);
+    free(s2);
     integer_t k = 0;
     integer_t j = total2 - gte2_desired_sum - 1;
     while (k < total1 - gte1_desired_sum && j >= 0)
@@ -348,7 +360,7 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             {
                 if (duplicated_s2[count] == s2minusgt[j])
                 {
-                    decToBinary(count, lengthP2, result,lengthP1);
+                    decToBinary(count, lengthP2, result, lengthP1);
                     break;
                 }
                 count++;
@@ -364,8 +376,7 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             j--;
         }
     }
-    free(s1);
-    free(s2);
+
     free(duplicated_s1);
     free(duplicated_s2);
     free(s1minusgt);
@@ -398,7 +409,7 @@ int main(void)
         for (int k = 0; k < n_sums; k++)
         {
             integer_t desired_sum = all_subset_sum_problems[i].sums[k]; // The desire_sum
-            int result[n]; // Array with the result
+            int result[n];                                              // Array with the result
             for (int j = 0; j < n; j++)
                 result[j] = 0;
             char found;
@@ -436,7 +447,7 @@ int main(void)
             double t2 = cpu_time();
             // fprintf(fp, "%d %d %d %d %f\n", 2, n, k, found, t2 - t1);
 
-            printf("For n = %d | Found: %d | Time: %f (s) | ", n, found, t2-t1);
+            printf("For n = %d | Found: %d | Time: %f (s) | ", n, found, t2 - t1);
             printf("Result: ");
             for (int j = 0; j < n; j++)
                 printf("%d", result[j]);
