@@ -15,15 +15,7 @@
 #include STUDENT_H_FILE
 
 // QUARTA E ULTIMA FUNÇÃO
-// HEAPS
-// NODE IS AT INDEX I
-// LEFT CHILD IS AT 2*I
-// RIGHT CHILD IS AT 2*I+1
-// ITS PARENT IS AT 2/I
-// BINARY TREE HAS 2^(H-1)-1 NODES, H = HEIGHT OF BINARY TREE
-// minuto 31:54 https://www.youtube.com/watch?v=HqPJF2L5h9U
-// https://gist.github.com/sudhanshuptl/d86da25da46aa3d060e7be876bbdb343 -> min heap implementation
-// https://www.journaldev.com/36805/min-heap-binary-tree -> another min heap implementation
+
 
 typedef struct Heap Heap;
 struct Heap
@@ -358,27 +350,10 @@ void free_heap(Heap *heap)
     free(heap);
 }
 
-char decToBinary(integer_t n, integer_t c, int result[], int index)
-{
-    for (integer_t i = index; i < c + index; i++)
-    {
-        integer_t k = n >> (i - index);
-        if (k & 1)
-        {
-            result[i] = 1;
-        }
-        else
-        {
-            result[i] = 0;
-        }
-    }
-    return 0;
-}
-
-char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[])
+char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
 {
 
-    // Divide P into nearly equal 4 parts
+    // Divide P into 4 nearly equal parts
     integer_t lengthP1 = n % 2 + n / 2;
     integer_t lengthP2 = n / 2;
     integer_t lp1 = lengthP1 % 2 + lengthP1 / 2;
@@ -472,7 +447,6 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
     Heap *minheap = init_heap(min_size);
     Heap *maxheap = init_heap(max_size);
 
-    int found = 0;
     i = 0;
     integer_t j = 0;
     while (i < 1ull << lp1)
@@ -482,28 +456,6 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
         {
             if (L1[i] + L2[j] == desired_sum)
             {
-
-                found = 1;
-                integer_t count = 0;
-                while (count < (1 << lp1))
-                {
-                    if (L1[count] == minheap->arr[0])
-                    {
-                        decToBinary(count, lp1, result, 0);
-                        break;
-                    }
-                    count++;
-                }
-                count = 0;
-                while (count < (1 << lp2))
-                {
-                    if (L2[count] == minheap->arr[0])
-                    {
-                        decToBinary(count, lp2, result, lp1);
-                        break;
-                    }
-                    count++;
-                }
                 return 1;
             }
             if (L1[i] + L2[j] < desired_sum)
@@ -512,7 +464,6 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
             }
             j++;
         }
-
         i++;
     }
     i = 0;
@@ -523,28 +474,6 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
         {
             if (R1[i] + R2[j] == desired_sum)
             {
-
-                found = 1;
-                integer_t count = 0;
-                while (count < (1 << lp3))
-                {
-                    if (R1[count] == maxheap->arr[0])
-                    {
-                        decToBinary(count, lp3, result, lp1 + lp2 - 1);
-                        break;
-                    }
-                    count++;
-                }
-                count = 0;
-                while (count < (1 << lp4))
-                {
-                    if (R2[count] == maxheap->arr[0])
-                    {
-                        decToBinary(count, lp4, result, lp1 + lp2 + lp3 - 1);
-                        break;
-                    }
-                    count++;
-                }
                 return 1;
             }
             if (R1[i] + R2[j] < desired_sum)
@@ -553,57 +482,13 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
             }
             j++;
         }
-
         i++;
     }
-
     integer_t counter = 0;
     while (1)
     {
-
         if (minheap->arr[0] + maxheap->arr[0] == desired_sum)
         {
-            //printf("FOUND\n -> %lld + %lld = %lld = %lld\n", minheap->arr[0], maxheap->arr[0], minheap->arr[0] + maxheap->arr[0], desired_sum);
-            integer_t count = 0;
-            while (count < (1 << lp1))
-            {
-                if (L1[count] == minheap->arr[0])
-                {
-                    decToBinary(count, lp1, result, 0);
-                    break;
-                }
-                count++;
-            }
-            count = 0;
-            while (count < (1 << lp2))
-            {
-                if (L2[count] == minheap->arr[0])
-                {
-                    decToBinary(count, lp2, result, lp1);
-                    break;
-                }
-                count++;
-            }
-            count = 0;
-            while (count < (1 << lp3))
-            {
-                if (R1[count] == maxheap->arr[0])
-                {
-                    decToBinary(count, lp3, result, 0);
-                    break;
-                }
-                count++;
-            }
-            count = 0;
-            while (count < (1 << lp4))
-            {
-                if (R2[count] == maxheap->arr[0])
-                {
-                    decToBinary(count, lp4, result, lp3);
-                    break;
-                }
-                count++;
-            }
             return 1;
         }
         else if (minheap->arr[0] + maxheap->arr[0] > desired_sum)
@@ -614,9 +499,8 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
         {
             delete_minimum(minheap);
         }
-        if (counter > (minheap->size * maxheap->size))
+        if (counter > (minheap->capacity * maxheap->capacity))
         {
-            printf("NOT FOUND!\n");
             return 0;
         }
         counter++;
@@ -647,7 +531,7 @@ int main()
             char found;
 
             double t1 = cpu_time();
-            found = SchroeppelShamir(n, p, desired_sum, result);
+            found = SchroeppelShamir(n, p, desired_sum);
             double t2 = cpu_time();
             // fprintf(fp, "%d %d %d %d %f\n", 2, n, k, found, t2 - t1);
 
