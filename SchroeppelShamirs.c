@@ -530,7 +530,7 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
                 {
                     if (R1[count] == maxheap->arr[0])
                     {
-                        decToBinary(count, lp3, result, 0);
+                        decToBinary(count, lp3, result, lp1 + lp2 - 1);
                         break;
                     }
                     count++;
@@ -540,7 +540,7 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
                 {
                     if (R2[count] == maxheap->arr[0])
                     {
-                        decToBinary(count, lp4, result, lp3);
+                        decToBinary(count, lp4, result, lp1 + lp2 + lp3 - 1);
                         break;
                     }
                     count++;
@@ -558,7 +558,7 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
     }
 
     integer_t counter = 0;
-    while (found != 1)
+    while (1)
     {
 
         if (minheap->arr[0] + maxheap->arr[0] == desired_sum)
@@ -605,23 +605,19 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum, int result[]
                 count++;
             }
             return 1;
-            found = 1;
         }
         else if (minheap->arr[0] + maxheap->arr[0] > desired_sum)
         {
-
             delete_maximum(maxheap);
         }
         else if (minheap->arr[0] + maxheap->arr[0] < desired_sum)
         {
-
             delete_minimum(minheap);
         }
         if (counter > (minheap->size * maxheap->size))
         {
-            printf("NOT FOUND\n");
+            printf("NOT FOUND!\n");
             return 0;
-            break;
         }
         counter++;
     }
