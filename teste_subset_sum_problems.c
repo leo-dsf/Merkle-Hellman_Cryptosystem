@@ -248,8 +248,8 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
     integer_t total1 = (1 << lengthP1); // s1 length 2^n
     integer_t total2 = (1 << lengthP2); // s2 length
     integer_t *s1, *s2, *duplicated_s1, *duplicated_s2;
-    s1 = (integer_t *)calloc(total1, sizeof(integer_t));
-    s2 = (integer_t *)calloc(total2, sizeof(integer_t));
+    s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
+    s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
     duplicated_s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
     duplicated_s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
 
@@ -276,7 +276,10 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
         if (sum1 <= desired_sum)
             s1[i] = sum1;
         else
+        {
+            s1[i] = 0;
             gt_desired_sum1++;
+        }
         duplicated_s1[i] = sum1;
 
         if (i < total2)
@@ -284,7 +287,10 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             if (sum2 <= desired_sum)
                 s2[i] = sum2;
             else
+            {
+                s2[i] = 0;
                 gt_desired_sum2++;
+            }
             duplicated_s2[i] = sum2;
         }
         i++;
@@ -294,9 +300,9 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
     quickSort(s1, 0, total1 - 1);
     quickSort(s2, 0, total2 - 1);
 
-    integer_t k = gt_desired_sum1 - 1;
+    integer_t k = gt_desired_sum1-1;
     integer_t j = total2 - 1;
-    while (k < total1 && j >= gt_desired_sum2 - 1)
+    while (k < total1 && j >= gt_desired_sum2-1)
     {
         if (s1[k] + s2[j] == desired_sum)
         {
