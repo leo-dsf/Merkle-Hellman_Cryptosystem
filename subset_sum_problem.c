@@ -29,6 +29,7 @@
 //
 // functions
 //
+
 //
 // First approach to the problem
 //
@@ -144,8 +145,11 @@ char bruteForceRecursiveV3(int n, integer_t p[n], integer_t desired_sum, int cur
 //
 // Third approach to the problem
 //
+
 //
 // HorowitzSahni starts here
+//
+
 //
 // Implementing quick sort function
 //
@@ -177,6 +181,7 @@ integer_t partition(integer_t arr[], integer_t low, integer_t high)
             swap(&arr[i], &arr[j]);
         }
     }
+
     swap(&arr[i + 1], &arr[high]);
     return (i + 1);
 }
@@ -223,13 +228,17 @@ char decToBinary(integer_t n, integer_t c, int result[], int index)
     return 0;
 }
 
-char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int result[])
+//
+// Function to make Subset Sums
+//
+
+void HorowitzSahniSums(int n, integer_t total1, integer_t total2, const integer_t p[n], integer_t s1[], integer_t s2[], integer_t duplicated_s1[], integer_t duplicated_s2[])
 {
-    int lengthP1 = n % 2 + n / 2;
-    int lengthP2 = n / 2;
+    // Calculating subset sums and duplicating arrays -> Need to find another way to save sums indexes
+    // When converting the index to binary and inverting order I will have the result
+
     integer_t p1[n % 2 + n / 2];
     integer_t p2[n / 2];
-
     int c = 0;
     for (int j = 0; j < n; j++)
     {
@@ -244,18 +253,6 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
         }
     }
 
-    // Making Subset sums
-    integer_t total1 = (1 << lengthP1); // s1 length 2^n
-    integer_t total2 = (1 << lengthP2); // s2 length
-    integer_t *s1, *s2, *duplicated_s1, *duplicated_s2;
-    s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
-    s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
-    duplicated_s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
-    duplicated_s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
-
-    // Calculating subset sums and duplicating arrays -> Need to find another way to save sums indexes
-    // When converting the index to binary and inverting order I will have the result
-
     integer_t i = 0;
     while (i < total1)
     {
@@ -267,9 +264,7 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             {
                 sum1 += p1[j];
                 if (i < total2)
-                {
                     sum2 += p2[j];
-                }
             }
         }
         s1[i] = sum1;
@@ -286,7 +281,10 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
     // Sorting with quick sort method
     quickSort(s1, 0, total1 - 1);
     quickSort(s2, 0, total2 - 1);
+}
 
+char HorowitzSahni(integer_t total1, integer_t total2, int lengthP1, int lengthP2, const integer_t s1[], const integer_t s2[], const integer_t duplicated_s1[], const integer_t duplicated_s2[], integer_t desired_sum, int result[])
+{
     integer_t k = 0;
     integer_t j = total2 - 1;
     while (k < total1 && j >= 0)
@@ -309,7 +307,7 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             {
                 if (duplicated_s2[count] == s2[j])
                 {
-                    decToBinary(count, lengthP2, result,lengthP1);
+                    decToBinary(count, lengthP2, result, lengthP1);
                     break;
                 }
                 count++;
@@ -325,16 +323,13 @@ char HorowitzSahni(int n, const integer_t p[n], integer_t desired_sum, int resul
             j--;
         }
     }
-    free(s1);
-    free(s2);
-    free(duplicated_s1);
-    free(duplicated_s2);
     return 0;
 }
 
 //
 // Fourth approach to the problem
 //
+
 //
 // SchroeppelShamirs starts here
 //
@@ -366,22 +361,6 @@ integer_t left_child(integer_t i)
 integer_t right_child(integer_t i)
 {
     return (2 * i + 2);
-}
-
-integer_t get_min(Heap *heap)
-{
-    // Only for MinHeaps
-    // Return the root node element,
-    // since that's the minimum
-    return heap->arr[0];
-}
-
-integer_t get_max(Heap *heap)
-{
-    // Only for MaxHeaps
-    // Return the root node element,
-    // since that's the maximum
-    return heap->arr[0];
 }
 
 Heap *init_heap(integer_t capacity)
@@ -503,7 +482,6 @@ Heap *heapify(Heap *heap, integer_t index, char type)
             }
 
             return heap;
-            break;
         case 1:
             // Rearranges the heap as to maintain
             // the max-heap property
@@ -541,7 +519,6 @@ Heap *heapify(Heap *heap, integer_t index, char type)
             }
 
             return heap;
-            break;
     }
     return heap;
 }
@@ -590,80 +567,6 @@ Heap *delete_maximum(Heap *heap)
     return heap;
 }
 
-Heap *delete_element(Heap *heap, integer_t index, char type)
-{
-    switch (type)
-    {
-        case 0:
-            // Deletes an element, indexed by index
-            // Ensure that it's lesser than the current root
-            heap->arr[index] = get_min(heap) - 1;
-
-            // Now keep swapping, until we update the tree
-            integer_t curr = index;
-            while (curr > 0 && heap->arr[parent(curr)] > heap->arr[curr])
-            {
-                integer_t temp = heap->arr[parent(curr)];
-                heap->arr[parent(curr)] = heap->arr[curr];
-                heap->arr[curr] = temp;
-                curr = parent(curr);
-            }
-
-            // Now simply delete the minimum element
-            heap = delete_minimum(heap);
-            return heap;
-            break;
-        case 1:
-            // Deletes an element, indexed by index
-            // Ensure that it's lesser than the current root
-            heap->arr[index] = get_min(heap) - 1;
-
-            // Now keep swapping, until we update the tree
-            curr = index;
-            while (curr > 0 && heap->arr[parent(curr)] < heap->arr[curr])
-            {
-                integer_t temp = heap->arr[parent(curr)];
-                heap->arr[parent(curr)] = heap->arr[curr];
-                heap->arr[curr] = temp;
-                curr = parent(curr);
-            }
-
-            // Now simply delete the maximum element
-            heap = delete_maximum(heap);
-            return heap;
-            break;
-            break;
-    }
-    return heap;
-}
-
-void print_heap(Heap *heap, char type)
-{
-    switch (type)
-    {
-        case 0:
-            // Simply print the array. This is an
-            // inorder traversal of the tree
-            printf("Min Heap:\n");
-            for (int i = 0; i < heap->size; i++)
-            {
-                printf("%llu -> ", heap->arr[i]);
-            }
-            printf("\n");
-            break;
-        case 1:
-            // Simply print the array. This is an
-            // inorder traversal of the tree
-            printf("Max Heap:\n");
-            for (int i = 0; i < heap->size; i++)
-            {
-                printf("%llu -> ", heap->arr[i]);
-            }
-            printf("\n");
-            break;
-    }
-}
-
 void free_heap(Heap *heap)
 {
     if (!heap)
@@ -672,17 +575,9 @@ void free_heap(Heap *heap)
     free(heap);
 }
 
-char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
+void SchroeppelShamirSums(int n, const integer_t p[n], integer_t lp1, integer_t lp2, integer_t lp3, integer_t lp4, integer_t L1[], integer_t L2[], integer_t R1[], integer_t R2[])
 {
-
     // Divide P into 4 nearly equal parts
-    integer_t lengthP1 = n % 2 + n / 2;
-    integer_t lengthP2 = n / 2;
-    integer_t lp1 = lengthP1 % 2 + lengthP1 / 2;
-    integer_t lp2 = lengthP1 / 2;
-    integer_t lp3 = lengthP2 % 2 + lengthP2 / 2;
-    integer_t lp4 = lengthP2 / 2;
-
     integer_t p1[lp1];
     integer_t p2[lp2];
     integer_t p3[lp3];
@@ -712,12 +607,6 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         p4[c] = p[i];
         c++;
     }
-
-    // Declaring Sum of all p L1 & L2 for minheap and R1 & R2 for max heap size = 2^lp
-    integer_t L1[(1 << lp1)];
-    integer_t L2[(1 << lp2)];
-    integer_t R1[(1 << lp3)];
-    integer_t R2[(1 << lp4)];
 
     integer_t i = 0;
     while (i < (1ull << lp1))
@@ -763,14 +652,11 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         }
         i++;
     }
+}
 
-    integer_t min_size = 1ull << lengthP1;
-    integer_t max_size = 1ull << lengthP2;
-    Heap *minheap = init_heap(min_size);
-    Heap *maxheap = init_heap(max_size);
-
-    i = 0;
-    integer_t j = 0;
+char SchroeppelShamir(integer_t lp1, integer_t lp2, integer_t lp3, integer_t lp4, const integer_t L1[], const integer_t L2[], const integer_t R1[], const integer_t R2[], Heap *minheap, Heap *maxheap, integer_t desired_sum)
+{
+    integer_t i = 0, j;
     while (i < 1ull << lp1)
     {
         j = 0;
@@ -827,10 +713,6 @@ char SchroeppelShamir(int n, integer_t p[n], integer_t desired_sum)
         }
         counter++;
     }
-
-    free_heap(minheap);
-    free_heap(maxheap);
-
     return 0;
 }
 
@@ -848,23 +730,58 @@ int main(void)
     fprintf(stderr,"  n_problems .. %d\n",n_problems);
     fprintf(stderr,"  integer_t ... %d bits\n",8 * (int)sizeof(integer_t));
      */
+    FILE *fp1 = fopen("data.txt","w");
+    FILE *fp2 = fopen("results.txt","w");
 
-    FILE *fp = fopen("data.txt","w");
-
-    for (int i = 0; i < n_problems; i++)
+    for (int i = 0; i < 41; i++)
     {
         int n = all_subset_sum_problems[i].n; // The value of n
-
         integer_t *p = all_subset_sum_problems[i].p; // The weights
+
+        char found;
+        int result[n]; // Array with the result
+        for (int index = 0; index < n; index++)
+            result[index] = 0;
+
+        // Making Subset Sums for HorowitzSahni()
+        double timeSumsH1 = cpu_time();
+        int lengthP1 = n % 2 + n / 2;
+        int lengthP2 = n / 2;
+        integer_t total1 = (1 << lengthP1); // s1 length = (2^lengthP1)
+        integer_t total2 = (1 << lengthP2); // s2 length = (2^lengthP2)
+        integer_t *s1, *s2, *duplicated_s1, *duplicated_s2;
+        s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
+        s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
+        duplicated_s1 = (integer_t *)malloc(total1 * sizeof(integer_t));
+        duplicated_s2 = (integer_t *)malloc(total2 * sizeof(integer_t));
+
+        HorowitzSahniSums(n,total1,total2,p,s1,s2,duplicated_s1, duplicated_s2);
+        double timeSumsH2 = cpu_time();
+        double timeSumsH = (timeSumsH2 - timeSumsH1)/(double)20;
+
+        // Making Subset Sums for SchroeppelShamir()
+        double timeSumsS1 = cpu_time();
+        int len1 = n % 2 + n / 2;
+        int len2 = n / 2;
+        integer_t lp1 = len1 % 2 + len1 / 2;
+        integer_t lp2 = len1 / 2;
+        integer_t lp3 = len2 % 2 + len2 / 2;
+        integer_t lp4 = len2 / 2;
+        // Declaring Sum of all p L1 & L2 for minheap and R1 & R2 for max heap size = 2^lp
+        integer_t L1[(1 << lp1)];
+        integer_t L2[(1 << lp2)];
+        integer_t R1[(1 << lp3)];
+        integer_t R2[(1 << lp4)];
+
+        SchroeppelShamirSums(n, p, lp1, lp2, lp3, lp4, L1, L2, R1, R2);
+        integer_t min_size = 1ull << len1;
+        integer_t max_size = 1ull << len2;
+        double timeSumsS2 = cpu_time();
+        double timeSumsS = (timeSumsS2 - timeSumsS1)/(double)20;
+
         for (int k = 0; k < n_sums; k++)
         {
             integer_t desired_sum = all_subset_sum_problems[i].sums[k]; // The desire_sum
-        
-            int result[n]; // Array with the result
-            for (int j = 0; j < n; j++)
-                result[j] = 0;
-            
-            char found;
 
             //
             // bruteForce() ---> id = 0
@@ -875,7 +792,7 @@ int main(void)
                 double t1 = cpu_time();
                 found = bruteForceV2(n, p, desired_sum, result);
                 double t2 = cpu_time();
-                fprintf(fp, "%d %d %d %d %f\n", 0, n, k, found, t2 - t1);
+                fprintf(fp1, "%d %d %d %d %f\n", 0, n, k, found, t2 - t1);
             }
 
             //
@@ -887,36 +804,43 @@ int main(void)
                 double t1 = cpu_time();
                 found = bruteForceRecursiveV3(n, p, desired_sum, 0, 0, result);
                 double t2 = cpu_time();
-                fprintf(fp, "%d %d %d %d %f\n", 1, n, k, found, t2 - t1);
+                fprintf(fp1, "%d %d %d %d %f\n", 1, n, k, found, t2 - t1);
             }
 
             //
             // HorowitzSahni() ---> id = 2
             //
 
-            double t1 = cpu_time();
-            found = HorowitzSahni(n, p, desired_sum, result);
-            double t2 = cpu_time();
-            fprintf(fp, "%d %d %d %d %f\n", 2, n, k, found, t2 - t1);
+            double timeAlgorithm1 = cpu_time();
+            found = HorowitzSahni(total1, total2, lengthP1, lengthP2, s1, s2, duplicated_s1, duplicated_s2, desired_sum, result);
+            double timeAlgorithm2 = cpu_time();
+            fprintf(fp1, "%d %d %d %d %f\n", 2, n, k, found, (timeAlgorithm2 - timeAlgorithm1) + timeSumsH);
 
             //
             // SchroeppelShamir() ---> id = 3
             //
 
-            t1 = cpu_time();
-            found = SchroeppelShamir(n, p, desired_sum);
-            t2 = cpu_time();
-            fprintf(fp, "%d %d %d %d %f\n", 3, n, k, found, t2 - t1);
+            timeAlgorithm1 = cpu_time();
+            Heap *minheap = init_heap(min_size);
+            Heap *maxheap = init_heap(max_size);
+            found = SchroeppelShamir(lp1, lp2, lp3, lp4, L1, L2, R1, R2, minheap, maxheap, desired_sum);
+            timeAlgorithm2 = cpu_time();
+            fprintf(fp1,"%d %d %d %d %f\n", 3, n, k, found, (timeAlgorithm2 - timeAlgorithm1) + timeSumsS);
+            free_heap(minheap);
+            free_heap(maxheap);
 
-            /*
-            printf("For n = %d | Found: %d | Time: %f (s) | ", n, found, t2-t1);
-            printf("Result: ");
+            // Write results to the file
+            fprintf(fp2, "For n: %d | IdSum = %d | Found: %d | Result: ", n, k, found);
             for (int j = 0; j < n; j++)
-                printf("%d", result[j]);
-            printf("\n");
-            */
+                fprintf(fp2, "%d", result[j]);
+            fprintf(fp2, "\n");
         }
+        free(s1);
+        free(s2);
+        free(duplicated_s1);
+        free(duplicated_s2);
     }
-    fclose(fp);
+    fclose(fp1);
+    fclose(fp2);
     return 0;
 }
