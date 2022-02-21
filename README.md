@@ -1,5 +1,5 @@
 # Merkle-Hellman_Cryptosystem
-Algorithms to solve a problem in C using different methods (brute force, branch-and-bound, random permutations).
+Algorithms to solve a problem in C using different methods (brute force, branch-and-bound, divide-and-conquer).
 
 ## Course
 This project was developed under the Algorithms and Data Structures course of [University of Aveiro](https://www.ua.pt/).
@@ -9,12 +9,6 @@ This project was developed under the Algorithms and Data Structures course of [U
 ```bash
 $ git clone https://github.com/leo-dsf/Multi-ordered_trees
 ```
-## Flags
-* ```-list0```
-* ```-list1```
-* ```-list2```
-* ```-list3```
-* ```-find "zip code"```
 
 ## How To Run
 * Compile with the following command:
