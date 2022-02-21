@@ -24,7 +24,7 @@ $ ./subset_sum_problem
 ## Authors
 * **Leonardo Flórido**: [leo-dsf](https://github.com/leo-dsf)
 * **Gabriel Hall**: [GabrielHall02](https://github.com/GabrielHall02)
-* **Diogo Alves**: [GabrielHall02](https://github.com/GabrielHall02)
+* **Diogo Alves**: [DiogoAlves002](https://github.com/DiogoAlves002)
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
