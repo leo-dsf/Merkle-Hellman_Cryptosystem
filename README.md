@@ -1,5 +1,5 @@
 # Merkle-Hellman_Cryptosystem
-Implemented Binary Trees in C.
+Algorithms to solve a problem in C using different methods (brute force, branch-and-bound, random permutations).
 
 ## Course
 This project was developed under the Algorithms and Data Structures course of [University of Aveiro](https://www.ua.pt/).
