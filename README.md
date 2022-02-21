@@ -7,23 +7,24 @@ This project was developed under the Algorithms and Data Structures course of [U
 ## Installation
 * Clone the repository:
 ```bash
-$ git clone https://github.com/leo-dsf/Multi-ordered_trees
+$ git clone https://github.com/leo-dsf/Merkle-Hellman_Cryptosystem
 ```
 
 ## How To Run
 * Compile with the following command:
 ```bash
-$ make multi-ordered_tree
+$ cc -Wall -O2 subset_sum_problem.c -o subset_sum_problem
 ```
 
 * Run:
 ```bash
-$ ./multi_ordered_tree (random number) (number of people) flag(optional)
+$ ./subset_sum_problem
 ```
 
 ## Authors
 * **Leonardo Flórido**: [leo-dsf](https://github.com/leo-dsf)
 * **Gabriel Hall**: [GabrielHall02](https://github.com/GabrielHall02)
+* **Diogo Alves**: [GabrielHall02](https://github.com/GabrielHall02)
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
