@@ -1,4 +1,4 @@
-# Merkle-Hellman_Cryptosystem
+# Merkle Hellman Cryptosystem
 Algorithms to solve a problem in C using different methods (brute force, branch-and-bound, divide-and-conquer).
 
 ## Course
