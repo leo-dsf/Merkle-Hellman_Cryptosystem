@@ -1,5 +1,5 @@
 # Merkle-Hellman Cryptosystem
-Algorithms to solve a problem in C using different methods (brute force, branch-and-bound, divide-and-conquer).
+Algorithms to solve a subset sum problem using different methods (brute force, branch-and-bound, divide-and-conquer).
 
 ## Course
 This project was developed under the Algorithms and Data Structures course of [University of Aveiro](https://www.ua.pt/).
