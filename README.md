@@ -1,8 +1,8 @@
 # Merkle-Hellman Cryptosystem
 Algorithms to solve a subset sum problem using different methods.
-1. Brute Force
-2. Branch and Bound
-3. Divide and Conquer
+1. **Brute Force**
+2. **Branch and Bound**
+3. **Divide and Conquer**
 
 ## Course
 This project was developed under the Algorithms and Data Structures course of [University of Aveiro](https://www.ua.pt/).
